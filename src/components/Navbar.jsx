@@ -1,22 +1,20 @@
 import React, { useState } from "react";
-import { ChevronDown, LogOut, PlusCircle, Settings2, Users, Menu, X } from "lucide-react";
-import { Link, NavLink } from "react-router";
-import logo from '/logo.png'
+import { ChevronDown, LogOut, PlusCircle, Settings2, Users } from "lucide-react";
+import ThemeToggle from "./ThemeToggle";
+import { NavLink } from "react-router"; 
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   const user = {
     name: "Ador Rahman",
     avatar: "https://i.pravatar.cc/100?img=5",
   };
 
   return (
-    <nav className="fixed w-full top-0 left-0 z-50 backdrop-blur-md bg-white/80 dark:bg-[#121212]/70 border-b border-gray-200 dark:border-gray-800 transition">
+    <nav className="fixed w-full top-0 left-0 z-50 backdrop-blur-md bg-white/80 dark:bg-[#121212]/70 border-b border-gray-200 dark:border-gray-800 transition-colors duration-500">
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-        
         <div className="flex items-center gap-2">
           <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
             EventSphere
@@ -77,10 +75,15 @@ const Navbar = () => {
 
         
         <div className="flex items-center gap-4 relative">
+          <ThemeToggle />
+
           {!isLoggedIn ? (
-            <Link to={'/login'} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition">
+            <NavLink
+              to="/login"
+              className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition"
+            >
               Login
-            </Link>
+            </NavLink>
           ) : (
             <div className="relative">
               
@@ -142,56 +145,8 @@ const Navbar = () => {
               )}
             </div>
           )}
-
-          
-          <button
-            className="md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? (
-              <X className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-            ) : (
-              <Menu className="w-6 h-6 text-gray-700 dark:text-gray-300" />
-            )}
-          </button>
         </div>
       </div>
-
-      
-      {isMenuOpen && (
-        <div className="md:hidden bg-white dark:bg-[#1c1c1e] border-t border-gray-200 dark:border-gray-700">
-          <div className="flex flex-col items-center py-4 space-y-3">
-            <NavLink
-              to="/"
-              className="text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 transition"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Home
-            </NavLink>
-            <NavLink
-              to="/events"
-              className="text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 transition"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Upcoming Events
-            </NavLink>
-            <NavLink
-              to="/about"
-              className="text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 transition"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              About
-            </NavLink>
-            <NavLink
-              to="/contact"
-              className="text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400 transition"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Contact
-            </NavLink>
-          </div>
-        </div>
-      )}
     </nav>
   );
 };

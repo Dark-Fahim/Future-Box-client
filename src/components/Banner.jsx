@@ -42,12 +42,12 @@ const Banner = () => {
         </div>
 
         
-        <div className="mt-10 md:mt-0 md:w-1/2 flex justify-center">
+        <div className="mt-10 md:mt-0 md:w-1/2 flex justify-center items-center ">
           <div className="relative">
             <img
               src="https://i.ibb.co.com/4gf2hr0g/Gemini-Generated-Image-xlud06xlud06xlud.png"
               alt="Event illustration"
-              className="w-[90%] md:w-[80%] max-w-md drop-shadow-xl"
+              className="w-[90%] md:w-[80%] max-w-md mx-auto drop-shadow-xl"
             />
             <div className="absolute bottom-4 left-4 bg-white/80 dark:bg-black/40 backdrop-blur-md px-4 py-2 rounded-xl shadow-md flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
               <CalendarDays className="w-4 h-4 text-indigo-500" />

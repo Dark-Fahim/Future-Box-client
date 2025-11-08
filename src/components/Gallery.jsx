@@ -1,4 +1,3 @@
-
 import { Camera } from "lucide-react";
 
 const images = [
@@ -31,13 +30,14 @@ const Gallery = () => {
           </p>
         </div>
 
-    
-    
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {images.map((img, i) => (
             <div
               key={i}
-              className="relative group overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition duration-300"
+              className={`
+                relative group overflow-hidden rounded-2xl shadow-md hover:shadow-xl transition duration-300
+                ${i >= 4 ? "hidden sm:block" : ""}
+              `}
             >
               <img
                 src={img}
