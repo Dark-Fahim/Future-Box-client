@@ -45,7 +45,7 @@ const Banner = () => {
         <div className="mt-10 md:mt-0 md:w-1/2 flex justify-center">
           <div className="relative">
             <img
-              src="https://i.ibb.co.com/HpD9J7P7/Gemini-Generated-Image-r809tir809tir809.png"
+              src="https://i.ibb.co.com/4gf2hr0g/Gemini-Generated-Image-xlud06xlud06xlud.png"
               alt="Event illustration"
               className="w-[90%] md:w-[80%] max-w-md drop-shadow-xl"
             />

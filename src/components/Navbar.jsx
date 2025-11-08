@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { ChevronDown, LogOut, PlusCircle, Settings2, Users, Menu, X } from "lucide-react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
+import logo from '/logo.png'
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const isLoggedIn = true;
+  const isLoggedIn = false;
   const user = {
     name: "Ador Rahman",
     avatar: "https://i.pravatar.cc/100?img=5",
@@ -77,9 +78,9 @@ const Navbar = () => {
         
         <div className="flex items-center gap-4 relative">
           {!isLoggedIn ? (
-            <button className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition">
+            <Link to={'/login'} className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition">
               Login
-            </button>
+            </Link>
           ) : (
             <div className="relative">
               
