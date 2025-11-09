@@ -1,24 +1,15 @@
 import React from "react";
 import { CalendarDays, MapPin, User, Tag } from "lucide-react";
-import { useNavigate } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import useDynamicTitle from "../hooks/useDynamicTitle";
 
 const EventDetails = () => {
+    const event = useLoaderData()
     useDynamicTitle('Details || EventSphere')
     const navigate = useNavigate()
     const {user} = useAuth()
-    const event = {
-        title: "Community Beach Cleanup",
-        description:
-            "Join us in making our local beach cleaner and safer! We’ll provide all the necessary supplies — gloves, trash bags, and refreshments. Let’s come together to make a difference for our environment and have some fun along the way.",
-        eventType: "Cleanup",
-        thumbnail:
-            "https://images.unsplash.com/photo-1522199710521-72d69614c702?auto=format&fit=crop&w=800&q=80",
-        location: "Cox’s Bazar Beach, Bangladesh",
-        date: "2025-12-15T10:00:00",
-        organizer: "GreenEarth Volunteers",
-    };
+    
 
     const formattedDate = new Date(event.date).toLocaleString("en-US", {
         weekday: "long",
@@ -34,6 +25,7 @@ const EventDetails = () => {
         if(!user){
             return navigate('/login')
         }
+
     }
 
 
@@ -66,10 +58,7 @@ const EventDetails = () => {
                                 <Tag className="w-5 h-5 text-indigo-500" />
                                 <span>{event.eventType}</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <User className="w-5 h-5 text-indigo-500" />
-                                <span>{event.organizer}</span>
-                            </div>
+                            
                         </div>
 
                         <p className="text-gray-800 dark:text-gray-300 leading-relaxed">

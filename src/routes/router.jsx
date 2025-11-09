@@ -48,7 +48,8 @@ const router = createBrowserRouter([
           Component: Contact
         },
         {
-          path: '/event-details',
+          path: '/events/:id',
+          loader: ({params}) => fetch(`http://localhost:3000/events/${params.id}`) ,
           Component: EventDetails
         }
     ]

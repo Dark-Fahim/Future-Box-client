@@ -4,6 +4,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import useDynamicTitle from "../hooks/useDynamicTitle";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
 const CreateEvent = () => {
   const axiosSecure = useAxiosSecure()
@@ -15,7 +16,7 @@ const CreateEvent = () => {
   const [location, setLocation] = useState("");
   const [date, setDate] = useState(null);
   const [error, setError] = useState("");
-  const {user} = useAuth()
+  const { user } = useAuth()
 
   const eventTypes = ["Cleanup", "Plantation", "Donation", "Workshop", "Other"];
 
@@ -45,21 +46,35 @@ const CreateEvent = () => {
     console.log(eventData);
     console.log(axiosSecure);
     axiosSecure.post('/events', eventData)
-    .then(data => {
-      console.log("after post data", data);
-    }).catch((err) => {
-      console.log(err);
-    })
+      .then(data => {
+        console.log("after post data", data);
+        if (data.data.insertedId) {
+          Swal.fire({
+            title: "Event Created Successfully",
+            icon: "success",
+            draggable: false
+          });
+        }
+      }).catch((err) => {
+        console.log(err);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Event Not Created",
+          footer: '<a href="#">Why do I have this issue?</a>'
+        });
+        return
+      })
 
     console.log("Event Created:", eventData);
 
-    // setTitle("");
-    // setDescription("");
-    // setEventType("");
-    // setThumbnail("");
-    // setLocation("");
-    // setDate(null);
-    // setError("");
+    setTitle("");
+    setDescription("");
+    setEventType("");
+    setThumbnail("");
+    setLocation("");
+    setDate(null);
+    setError("");
   };
 
   return (
@@ -72,7 +87,7 @@ const CreateEvent = () => {
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          
+
           <input
             type="text"
             placeholder="Event Title"
@@ -83,7 +98,7 @@ const CreateEvent = () => {
             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
           />
 
-          
+
           <textarea
             placeholder="Event Description"
             value={description}
@@ -94,7 +109,7 @@ const CreateEvent = () => {
             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
           />
 
-          
+
           <select
             value={eventType}
             onChange={(e) => setEventType(e.target.value)}
@@ -110,7 +125,7 @@ const CreateEvent = () => {
             ))}
           </select>
 
-          
+
           <input
             type="text"
             placeholder="Thumbnail Image URL"
@@ -121,7 +136,7 @@ const CreateEvent = () => {
             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
           />
 
-          
+
           <input
             type="text"
             placeholder="Event Location"
@@ -132,7 +147,7 @@ const CreateEvent = () => {
             focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
           />
 
-          
+
           <div className="relative">
             <DatePicker
               selected={date}
@@ -148,7 +163,7 @@ const CreateEvent = () => {
             />
           </div>
 
-          
+
           <button
             type="submit"
             className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-300"

@@ -10,32 +10,6 @@ const UpcomingEvents = () => {
     useDynamicTitle('UpcomingEvents || EventSphere')
     
     const [events, setEvents]=  useState([])
-    // const events = [
-    //     {
-    //         title: "Beach Cleanup Drive",
-    //         type: "Cleanup",
-    //         date: "2025-12-01",
-    //         image: "https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1000",
-    //         location: "Cox’s Bazar",
-    //         description: "Join us in keeping our beaches clean and safe for everyone.",
-    //     },
-    //     {
-    //         title: "Tree Plantation Week",
-    //         type: "Plantation",
-    //         date: "2025-12-05",
-    //         image: "https://images.unsplash.com/photo-1506765515384-028b60a970df?q=80&w=1000",
-    //         location: "Dhaka University",
-    //         description: "Let’s plant 500 trees together to make our city greener.",
-    //     },
-    //     {
-    //         title: "Winter Clothing Donation",
-    //         type: "Donation",
-    //         date: "2025-12-10",
-    //         image: "https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1000",
-    //         location: "Chattogram",
-    //         description: "Help us collect warm clothes for underprivileged families this winter.",
-    //     },
-    // ];
 
     useEffect(() => {
         axios.get('http://localhost:3000/events')
@@ -90,10 +64,10 @@ const UpcomingEvents = () => {
                                     <MapPin className="w-4 h-4" /> {event.location}
                                 </div>
                                 <div className="mt-3 inline-block px-3 py-1 text-xs font-medium bg-indigo-100 dark:bg-indigo-800/40 text-indigo-600 dark:text-indigo-300 rounded-full">
-                                    {event.type}
+                                    {event.eventType}
                                 </div>
                                 <div className="flex my-5">
-                                    <button className="w-full py-2  bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-lg font-medium transition">View Details </button>
+                                    <Link to={`/events/${event._id}`} className="text-center w-full py-2  bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-lg font-medium transition">View Details </Link>
                                 </div>
                             </div>
                         </div>
