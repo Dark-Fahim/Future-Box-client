@@ -1,10 +1,10 @@
-;import "react-datepicker/dist/react-datepicker.css";
+; import "react-datepicker/dist/react-datepicker.css";
 import { PlusCircle, Calendar, MapPin, Image, FileText, Type } from "lucide-react";
 import { Link } from "react-router";
 
 const UpcomingEvents = () => {
 
-    
+
 
     const events = [
         {
@@ -54,7 +54,7 @@ const UpcomingEvents = () => {
                     </div>
                 </div>
 
-                
+
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                     {events.map((event, i) => (
                         <div
@@ -70,9 +70,7 @@ const UpcomingEvents = () => {
                                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
                                     {event.title}
                                 </h3>
-                                <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
-                                    {event.description}
-                                </p>
+
                                 <div className="mt-4 flex items-center text-sm text-gray-500 dark:text-gray-400 gap-3">
                                     <Calendar className="w-4 h-4" /> {event.date}
                                 </div>
@@ -81,6 +79,9 @@ const UpcomingEvents = () => {
                                 </div>
                                 <div className="mt-3 inline-block px-3 py-1 text-xs font-medium bg-indigo-100 dark:bg-indigo-800/40 text-indigo-600 dark:text-indigo-300 rounded-full">
                                     {event.type}
+                                </div>
+                                <div className="flex my-5">
+                                    <button className="w-full py-2  bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-lg font-medium transition">View Details </button>
                                 </div>
                             </div>
                         </div>

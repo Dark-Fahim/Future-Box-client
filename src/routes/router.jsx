@@ -8,6 +8,7 @@ import ErrorPage from "../pages/ErrorPage";
 import UpcomingEvents from "../pages/UpcomingEvents";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
+import PrivateRoute from "./PrivateRoute";
 
 
 
@@ -23,7 +24,7 @@ const router = createBrowserRouter([
         }, 
         {
             path: '/create-event',
-            Component: CreateEvent
+            element: <PrivateRoute><CreateEvent></CreateEvent></PrivateRoute>
         }, 
         {
             path: '/login',

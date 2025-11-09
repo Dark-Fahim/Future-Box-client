@@ -1,28 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Mail, Lock } from "lucide-react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate()
-    const {signInWithEmailPassword, loading, user, googleSignIn} = useAuth()
-
-    if(loading) {
+    const { signInWithEmailPassword, loading, user, googleSignIn } = useAuth()
+    
+    const location = useLocation()
+    console.log(location);
+    const from = location.state?.from?.pathname || "/";
+    useEffect(() => {
+        if (user) {
+            navigate(from, { replace: true });
+        }
+    }, [user, navigate, from]);
+    if (loading) {
         return <p>Loading Please Wait.......!</p>
     }
-    if(user){
-        return navigate('/')
-    }
+
+
+
+
     const handleGoogleSignIn = () => {
         googleSignIn()
-        .then(result => {
-            console.log(result.user);
-        })
-        .catch(err => {
-            console.log(err);
-        })
+            .then(result => {
+                console.log(result.user);
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     const handleSubmit = (e) => {
@@ -30,12 +39,12 @@ const Login = () => {
         // Here you can integrate your login API
         console.log({ email, password });
         signInWithEmailPassword(email, password)
-        .then(result => {
-            console.log(result.user);
-        })
-        .catch(err => {
-            console.log(err);
-        })
+            .then(result => {
+                console.log(result.user);
+            })
+            .catch(err => {
+                console.log(err);
+            })
     };
 
     return (
