@@ -1,11 +1,14 @@
 import { createBrowserRouter } from "react-router";
-import { RouterProvider } from "react-router/dom";
 import Root from "../layout/Root";
 import Home from "../pages/Home";
 import CreateEvent from "../pages/CreateEvent";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import ErrorPage from "../pages/ErrorPage";
+import UpcomingEvents from "../pages/UpcomingEvents";
+import About from "../pages/About";
+import Contact from "../pages/Contact";
+
 
 
 
@@ -29,7 +32,19 @@ const router = createBrowserRouter([
         {
             path: '/register',
             Component: Register
-        }
+        },
+        {
+          path: '/events',
+          Component: UpcomingEvents
+        },
+        {
+          path: '/about',
+          Component: About
+        },
+        {
+          path: '/contact',
+          Component: Contact
+        },
     ]
   },
   {

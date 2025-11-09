@@ -2,7 +2,7 @@ import { Camera } from "lucide-react";
 
 const images = [
   "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000",
-  "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1000",
+  "https://images.unsplash.com/photo-1497032628192-86f99bcd76bc?q=80&w=1000",
   "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?q=80&w=1000",
   "https://images.unsplash.com/photo-1506157786151-b8491531f063?q=80&w=1000",
   "https://images.unsplash.com/photo-1497493292307-31c376b6e479?q=80&w=1000",

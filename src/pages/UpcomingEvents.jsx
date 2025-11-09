@@ -1,0 +1,97 @@
+;import "react-datepicker/dist/react-datepicker.css";
+import { PlusCircle, Calendar, MapPin, Image, FileText, Type } from "lucide-react";
+import { Link } from "react-router";
+
+const UpcomingEvents = () => {
+
+    
+
+    const events = [
+        {
+            title: "Beach Cleanup Drive",
+            type: "Cleanup",
+            date: "2025-12-01",
+            image: "https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1000",
+            location: "Cox’s Bazar",
+            description: "Join us in keeping our beaches clean and safe for everyone.",
+        },
+        {
+            title: "Tree Plantation Week",
+            type: "Plantation",
+            date: "2025-12-05",
+            image: "https://images.unsplash.com/photo-1506765515384-028b60a970df?q=80&w=1000",
+            location: "Dhaka University",
+            description: "Let’s plant 500 trees together to make our city greener.",
+        },
+        {
+            title: "Winter Clothing Donation",
+            type: "Donation",
+            date: "2025-12-10",
+            image: "https://images.unsplash.com/photo-1600746021928-3c28b1f1e3a0?q=80&w=1000",
+            location: "Chattogram",
+            description: "Help us collect warm clothes for underprivileged families this winter.",
+        },
+    ];
+
+    return (
+        <section className="py-24 bg-gray-50 dark:bg-[#121212] transition-colors duration-500 min-h-screen">
+            <div className="max-w-7xl mx-auto px-6">
+
+                <div className="text-center mb-12">
+                    <h2 className="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white">
+                        Upcoming Events
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-400 mt-3 max-w-2xl mx-auto">
+                        Explore upcoming community activities and be part of meaningful change.
+                    </p>
+                    <div className="flex justify-center items-center">
+                        <Link to={'/create-event'}
+
+                            className="mt-6 px-5 py-3 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition flex items-center gap-2 mx-auto"
+                        >
+                            <PlusCircle className="w-5 h-5" /> Create Event
+                        </Link>
+                    </div>
+                </div>
+
+                
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {events.map((event, i) => (
+                        <div
+                            key={i}
+                            className="bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
+                        >
+                            <img
+                                src={event.image}
+                                alt={event.title}
+                                className="w-full h-56 object-cover"
+                            />
+                            <div className="p-6">
+                                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                                    {event.title}
+                                </h3>
+                                <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
+                                    {event.description}
+                                </p>
+                                <div className="mt-4 flex items-center text-sm text-gray-500 dark:text-gray-400 gap-3">
+                                    <Calendar className="w-4 h-4" /> {event.date}
+                                </div>
+                                <div className="mt-1 flex items-center text-sm text-gray-500 dark:text-gray-400 gap-3">
+                                    <MapPin className="w-4 h-4" /> {event.location}
+                                </div>
+                                <div className="mt-3 inline-block px-3 py-1 text-xs font-medium bg-indigo-100 dark:bg-indigo-800/40 text-indigo-600 dark:text-indigo-300 rounded-full">
+                                    {event.type}
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+
+
+        </section>
+    );
+};
+
+export default UpcomingEvents;

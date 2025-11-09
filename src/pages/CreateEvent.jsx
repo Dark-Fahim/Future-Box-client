@@ -34,12 +34,11 @@ const CreateEvent = ({ user }) => {
       thumbnail,
       location,
       date: date.toISOString(),
-      creatorEmail: null
+      creatorEmail: user?.email || "anonymous@example.com",
     };
 
     console.log("Event Created:", eventData);
 
-    
     setTitle("");
     setDescription("");
     setEventType("");
@@ -47,88 +46,103 @@ const CreateEvent = ({ user }) => {
     setLocation("");
     setDate(null);
     setError("");
-
-    
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-white dark:bg-[#1c1c1e] rounded-xl shadow-md mt-12">
-      <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">
-        Create New Event
-      </h2>
-      {error && <p className="text-red-500 mb-4">{error}</p>}
+    <div className="min-h-screen bg-gray-50 dark:bg-[#121212] transition-colors duration-500 pt-24 px-4 pb-16">
+      <div className="max-w-3xl mx-auto p-8 bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-colors duration-500">
+        <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 text-center">
+          Create New Event
+        </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        
-        <input
-          type="text"
-          placeholder="Event Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#121212] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
+        {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-        
-        <textarea
-          placeholder="Event Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          rows={4}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#121212] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
+        <form onSubmit={handleSubmit} className="space-y-5">
+          
+          <input
+            type="text"
+            placeholder="Event Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
+            bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100
+            focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
+          />
 
-        
-        <select
-          value={eventType}
-          onChange={(e) => setEventType(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#121212] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
-          <option value="">Select Event Type</option>
-          {eventTypes.map((type) => (
-            <option key={type} value={type}>
-              {type}
-            </option>
-          ))}
-        </select>
+          
+          <textarea
+            placeholder="Event Description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
+            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
+            bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100
+            focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
+          />
 
-        
-        <input
-          type="text"
-          placeholder="Thumbnail Image URL"
-          value={thumbnail}
-          onChange={(e) => setThumbnail(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#121212] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
+          
+          <select
+            value={eventType}
+            onChange={(e) => setEventType(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
+            bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100
+            focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
+          >
+            <option value="">Select Event Type</option>
+            {eventTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
 
-        
-        <input
-          type="text"
-          placeholder="Event Location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#121212] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
+          
+          <input
+            type="text"
+            placeholder="Thumbnail Image URL"
+            value={thumbnail}
+            onChange={(e) => setThumbnail(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
+            bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100
+            focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
+          />
 
-        
-        <DatePicker
-          selected={date}
-          onChange={(date) => setDate(date)}
-          minDate={new Date()}
-          showTimeSelect
-          timeIntervals={15}
-          dateFormat="Pp"
-          placeholderText="Select Event Date & Time"
-          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#121212] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
+          
+          <input
+            type="text"
+            placeholder="Event Location"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
+            bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100
+            focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
+          />
 
-        
-        <button
-          type="submit"
-          className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition"
-        >
-          Create Event
-        </button>
-      </form>
+          
+          <div className="relative">
+            <DatePicker
+              selected={date}
+              onChange={(date) => setDate(date)}
+              minDate={new Date()}
+              showTimeSelect
+              timeIntervals={15}
+              dateFormat="Pp"
+              placeholderText="Select Event Date & Time"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
+              bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100
+              focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
+            />
+          </div>
+
+          
+          <button
+            type="submit"
+            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition duration-300"
+          >
+            Create Event
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
