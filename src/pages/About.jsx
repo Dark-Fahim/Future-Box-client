@@ -1,7 +1,9 @@
 import React from "react";
 import { Users, Globe2, Heart, Leaf, Star } from "lucide-react";
+import useDynamicTitle from "../hooks/useDynamicTitle";
 
 const About = () => {
+    useDynamicTitle('About || EventSphere')
   return (
     <section className="bg-gray-50 dark:bg-[#121212] text-gray-800 dark:text-gray-100 transition-colors duration-500">
       

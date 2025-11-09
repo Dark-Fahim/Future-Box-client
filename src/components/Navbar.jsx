@@ -40,7 +40,7 @@ const Navbar = () => {
   return (
     <nav className="fixed w-full top-0 left-0 z-50 backdrop-blur-md bg-white/80 dark:bg-[#121212]/70 border-b border-gray-200 dark:border-gray-800 transition-colors duration-500">
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-        {/* Left section: Hamburger + Logo */}
+        
         <div className="flex items-center gap-2">
           <button
             className="md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
@@ -57,7 +57,7 @@ const Navbar = () => {
           </span>
         </div>
 
-        {/* Desktop Nav Links */}
+        
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <NavLink
@@ -76,7 +76,7 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Right section */}
+        
         <div className="flex flex-wrap justify-center items-center gap-4 relative">
           <ThemeToggle />
 
@@ -89,7 +89,7 @@ const Navbar = () => {
             </NavLink>
           ) : (
             <div className="relative">
-              {/* Profile */}
+              
               <div
                 className="group flex items-center gap-2 cursor-pointer"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -111,7 +111,7 @@ const Navbar = () => {
                 />
               </div>
 
-              {/* Dropdown Menu */}
+              
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-3 w-48 bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-2 animate-fadeIn">
                   <NavLink
@@ -146,7 +146,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu with smooth slide */}
+      
       <div
         className={`md:hidden bg-white dark:bg-[#1c1c1e] border-t border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 ${
           isMobileMenuOpen ? "max-h-screen py-4" : "max-h-0"

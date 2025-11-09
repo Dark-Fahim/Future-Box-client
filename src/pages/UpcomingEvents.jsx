@@ -1,9 +1,10 @@
 ; import "react-datepicker/dist/react-datepicker.css";
 import { PlusCircle, Calendar, MapPin, Image, FileText, Type } from "lucide-react";
 import { Link } from "react-router";
+import useDynamicTitle from "../hooks/useDynamicTitle";
 
 const UpcomingEvents = () => {
-
+    useDynamicTitle('UpcomingEvents || EventSphere')
 
 
     const events = [

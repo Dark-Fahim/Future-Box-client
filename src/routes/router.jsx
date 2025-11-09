@@ -9,6 +9,7 @@ import UpcomingEvents from "../pages/UpcomingEvents";
 import About from "../pages/About";
 import Contact from "../pages/Contact";
 import PrivateRoute from "./PrivateRoute";
+import EventDetails from "../pages/EventDetails";
 
 
 
@@ -46,6 +47,10 @@ const router = createBrowserRouter([
           path: '/contact',
           Component: Contact
         },
+        {
+          path: '/event-details',
+          Component: EventDetails
+        }
     ]
   },
   {

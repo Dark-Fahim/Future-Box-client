@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import useDynamicTitle from "../hooks/useDynamicTitle";
 
 const CreateEvent = ({ user }) => {
+  useDynamicTitle('CreateEvent || EventSphere')
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [eventType, setEventType] = useState("");

@@ -5,8 +5,6 @@ const ThemeToggle = () => {
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
-    
-    // On mount, check localStorage or system preference
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme === "dark") {
       document.documentElement.classList.add("dark");
@@ -33,7 +31,7 @@ const ThemeToggle = () => {
     <button 
       onClick={toggleTheme}
       className="p-2 cursor-pointer rounded-full bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white transition"
-      title="Toggle Theme"
+      title="Change Theme"
     >
       {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
     </button>

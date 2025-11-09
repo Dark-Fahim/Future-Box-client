@@ -1,8 +1,9 @@
 
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import useDynamicTitle from "../hooks/useDynamicTitle";
 
 const Contact = () => {
-  
+  useDynamicTitle('Contact || EventSphere')
 
   return (
     <div className="min-h-screen mt-10 bg-gray-100 dark:bg-[#121212] flex flex-col items-center justify-center px-6 py-16 transition-colors duration-500">
@@ -49,7 +50,6 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Contact Form */}
           <div>
             
               <form  className="space-y-4">

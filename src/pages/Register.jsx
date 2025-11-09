@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { User, Mail, Lock, Image } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
+import useDynamicTitle from "../hooks/useDynamicTitle";
 
 const Register = () => {
+    useDynamicTitle('Register || EventSphere')
     const {createUser, update, loading, user, googleSignIn} = useAuth()
     const navigate = useNavigate()
     const [fullName, setFullName] = useState("");
@@ -59,7 +61,7 @@ const Register = () => {
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Full Name */}
+                    
                     <div className="relative">
                         <User className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                         <input
@@ -71,7 +73,7 @@ const Register = () => {
                             required
                         />
                     </div>
-                    {/* image */}
+                    
                     <div className="relative">
                         <Image className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                         <input
@@ -84,7 +86,7 @@ const Register = () => {
                         />
                     </div>
 
-                    {/* Email */}
+                    
                     <div className="relative">
                         <Mail className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                         <input
@@ -97,7 +99,7 @@ const Register = () => {
                         />
                     </div>
 
-                    {/* Password */}
+                    
                     <div className="relative">
                         <Lock className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                         <input
@@ -112,7 +114,7 @@ const Register = () => {
 
                     
 
-                    {/* Sign Up Button */}
+                    
                     <button
                         type="submit"
                         className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition"
@@ -121,19 +123,19 @@ const Register = () => {
                     </button>
                 </form>
 
-                {/* Divider */}
+                
                 <div className="flex items-center my-6">
                     <hr className="flex-1 border-gray-300 dark:border-gray-700" />
                     <span className="mx-3 text-gray-500 dark:text-gray-400 text-sm">OR</span>
                     <hr className="flex-1 border-gray-300 dark:border-gray-700" />
                 </div>
 
-                {/* Google Sign-In Button */}
+                
                 <button onClick={handleGoogleSignIn}
                     type="button"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#1c1c1e] text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition font-medium"
                 >
-                    {/* Google Logo SVG */}
+                    
                     <svg
                         className="w-5 h-5"
                         xmlns="http://www.w3.org/2000/svg"
@@ -160,7 +162,7 @@ const Register = () => {
                 </button>
 
 
-                {/* Login Link */}
+                
                 <p className="text-center text-gray-600 dark:text-gray-400 mt-6">
                     Already have an account?{" "}
                     <Link
