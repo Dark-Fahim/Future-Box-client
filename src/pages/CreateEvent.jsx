@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useDynamicTitle from "../hooks/useDynamicTitle";
+import useAuth from "../hooks/useAuth";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
-const CreateEvent = ({ user }) => {
+const CreateEvent = () => {
+  const axiosSecure = useAxiosSecure()
   useDynamicTitle('CreateEvent || EventSphere')
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -12,6 +15,7 @@ const CreateEvent = ({ user }) => {
   const [location, setLocation] = useState("");
   const [date, setDate] = useState(null);
   const [error, setError] = useState("");
+  const {user} = useAuth()
 
   const eventTypes = ["Cleanup", "Plantation", "Donation", "Workshop", "Other"];
 
@@ -38,16 +42,24 @@ const CreateEvent = ({ user }) => {
       date: date.toISOString(),
       creatorEmail: user?.email || "anonymous@example.com",
     };
+    console.log(eventData);
+    console.log(axiosSecure);
+    axiosSecure.post('/events', eventData)
+    .then(data => {
+      console.log("after post data", data);
+    }).catch((err) => {
+      console.log(err);
+    })
 
     console.log("Event Created:", eventData);
 
-    setTitle("");
-    setDescription("");
-    setEventType("");
-    setThumbnail("");
-    setLocation("");
-    setDate(null);
-    setError("");
+    // setTitle("");
+    // setDescription("");
+    // setEventType("");
+    // setThumbnail("");
+    // setLocation("");
+    // setDate(null);
+    // setError("");
   };
 
   return (

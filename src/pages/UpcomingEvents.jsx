@@ -2,37 +2,48 @@
 import { PlusCircle, Calendar, MapPin, Image, FileText, Type } from "lucide-react";
 import { Link } from "react-router";
 import useDynamicTitle from "../hooks/useDynamicTitle";
+import { useEffect, useState } from "react";
+
+import axios from "axios";
 
 const UpcomingEvents = () => {
     useDynamicTitle('UpcomingEvents || EventSphere')
+    
+    const [events, setEvents]=  useState([])
+    // const events = [
+    //     {
+    //         title: "Beach Cleanup Drive",
+    //         type: "Cleanup",
+    //         date: "2025-12-01",
+    //         image: "https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1000",
+    //         location: "Cox’s Bazar",
+    //         description: "Join us in keeping our beaches clean and safe for everyone.",
+    //     },
+    //     {
+    //         title: "Tree Plantation Week",
+    //         type: "Plantation",
+    //         date: "2025-12-05",
+    //         image: "https://images.unsplash.com/photo-1506765515384-028b60a970df?q=80&w=1000",
+    //         location: "Dhaka University",
+    //         description: "Let’s plant 500 trees together to make our city greener.",
+    //     },
+    //     {
+    //         title: "Winter Clothing Donation",
+    //         type: "Donation",
+    //         date: "2025-12-10",
+    //         image: "https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1000",
+    //         location: "Chattogram",
+    //         description: "Help us collect warm clothes for underprivileged families this winter.",
+    //     },
+    // ];
 
-
-    const events = [
-        {
-            title: "Beach Cleanup Drive",
-            type: "Cleanup",
-            date: "2025-12-01",
-            image: "https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1000",
-            location: "Cox’s Bazar",
-            description: "Join us in keeping our beaches clean and safe for everyone.",
-        },
-        {
-            title: "Tree Plantation Week",
-            type: "Plantation",
-            date: "2025-12-05",
-            image: "https://images.unsplash.com/photo-1506765515384-028b60a970df?q=80&w=1000",
-            location: "Dhaka University",
-            description: "Let’s plant 500 trees together to make our city greener.",
-        },
-        {
-            title: "Winter Clothing Donation",
-            type: "Donation",
-            date: "2025-12-10",
-            image: "https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1000",
-            location: "Chattogram",
-            description: "Help us collect warm clothes for underprivileged families this winter.",
-        },
-    ];
+    useEffect(() => {
+        axios.get('http://localhost:3000/events')
+        .then(data => {
+            console.log(data.data);
+            setEvents(data.data)
+        })
+    }, [])
 
     return (
         <section className="py-24 bg-gray-50 dark:bg-[#121212] transition-colors duration-500 min-h-screen">
@@ -63,7 +74,7 @@ const UpcomingEvents = () => {
                             className="bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
                         >
                             <img
-                                src={event.image}
+                                src={event.thumbnail}
                                 alt={event.title}
                                 className="w-full h-56 object-cover"
                             />

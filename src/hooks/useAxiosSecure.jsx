@@ -14,7 +14,7 @@ const useAxiosSecure = () => {
     useEffect(() => {
         const requestInterceptors =  instance.interceptors.request.use((config) => {
             console.log(config);
-            config.headers.authorization = `Bearer ${user.accessToken}`
+            // config.headers.authorization = `Bearer ${user.accessToken}`
             return config
         })
 
@@ -28,6 +28,8 @@ const useAxiosSecure = () => {
             instance.interceptors.response.eject(responseInterceptors)
         }
     }, [user.accessToken, logOut, navigate])
+
+    return instance
 };
 
 export default useAxiosSecure;
