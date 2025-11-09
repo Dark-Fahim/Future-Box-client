@@ -1,20 +1,41 @@
 import React, { useState } from "react";
-import { User, Mail, Lock } from "lucide-react";
-import { Link } from "react-router";
+import { User, Mail, Lock, Image } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import useAuth from "../hooks/useAuth";
 
 const Register = () => {
+    const {createUser, update, loading, user} = useAuth()
+    const navigate = useNavigate()
     const [fullName, setFullName] = useState("");
+    const [image, setImage] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
+    
+
+    if(loading) {
+        return <p>Loading Please Wait.......!</p>
+    }
+    if(user){
+        return navigate('/')
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (password !== confirmPassword) {
-            alert("Passwords do not match!");
-            return;
-        }
-        console.log({ fullName, email, password });
+        createUser(email, password)
+        .then((result) => {
+            console.log(result.user);
+            update(image, fullName)
+            .then(() => {
+                console.log('Profile Updated');
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
     };
 
     return (
@@ -36,6 +57,18 @@ const Register = () => {
                             placeholder="Full Name"
                             value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
+                            className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#121212] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                            required
+                        />
+                    </div>
+                    {/* image */}
+                    <div className="relative">
+                        <Image className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
+                        <input
+                            type="text"
+                            placeholder="Photo url"
+                            value={image}
+                            onChange={(e) => setImage(e.target.value)}
                             className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#121212] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
                             required
                         />
@@ -67,18 +100,7 @@ const Register = () => {
                         />
                     </div>
 
-                    {/* Confirm Password */}
-                    <div className="relative">
-                        <Lock className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
-                        <input
-                            type="password"
-                            placeholder="Confirm Password"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                            className="w-full pl-10 pr-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#121212] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                            required
-                        />
-                    </div>
+                    
 
                     {/* Sign Up Button */}
                     <button

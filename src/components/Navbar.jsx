@@ -10,16 +10,25 @@ import {
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import { NavLink } from "react-router"; 
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const {user, logOut} = useAuth()
 
-  const isLoggedIn = true;
-  const user = {
-    name: "Ador Rahman",
-    avatar: "https://i.pravatar.cc/100?img=5",
-  };
+  const handleLogout = () => {
+    console.log('logout hittted');
+    logOut()
+    .then(() => {
+      console.log('Sign out successful');
+    })
+    .catch(() => {
+
+    })
+  }
+  
+  
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -71,7 +80,7 @@ const Navbar = () => {
         <div className="flex flex-wrap justify-center items-center gap-4 relative">
           <ThemeToggle />
 
-          {!isLoggedIn ? (
+          {!user ? (
             <NavLink
               to="/login"
               className="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 transition"
@@ -87,12 +96,12 @@ const Navbar = () => {
               >
                 <div className="relative">
                   <img
-                    src={user.avatar}
+                    src={user.photoURL || "https://i.pravatar.cc/100?img=5"}
                     alt="profile"
                     className="w-10 h-10 rounded-full border-2 border-indigo-500 object-cover"
                   />
                   <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 px-3 py-1 text-sm text-white bg-black/80 rounded-md opacity-0 group-hover:opacity-100 transition duration-300 whitespace-nowrap">
-                    {user.name}
+                    {user.displayName}
                   </div>
                 </div>
                 <ChevronDown
@@ -124,12 +133,12 @@ const Navbar = () => {
                     <Users className="w-4 h-4" /> Joined Events
                   </NavLink>
                   <hr className="border-gray-200 dark:border-gray-700 my-1" />
-                  <NavLink
-                    to="/logout"
+                  <button onClick={handleLogout}
+                    
                     className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                   >
                     <LogOut className="w-4 h-4" /> Logout
-                  </NavLink>
+                  </button>
                 </div>
               )}
             </div>

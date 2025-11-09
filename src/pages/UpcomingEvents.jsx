@@ -27,7 +27,7 @@ const UpcomingEvents = () => {
             title: "Winter Clothing Donation",
             type: "Donation",
             date: "2025-12-10",
-            image: "https://images.unsplash.com/photo-1600746021928-3c28b1f1e3a0?q=80&w=1000",
+            image: "https://images.unsplash.com/photo-1523978591478-c753949ff840?q=80&w=1000",
             location: "Chattogram",
             description: "Help us collect warm clothes for underprivileged families this winter.",
         },

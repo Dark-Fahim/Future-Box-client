@@ -1,15 +1,32 @@
 import React, { useState } from "react";
 import { Mail, Lock } from "lucide-react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import useAuth from "../hooks/useAuth";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate()
+    const {signInWithEmailPassword, loading, user} = useAuth()
+
+    if(loading) {
+        return <p>Loading Please Wait.......!</p>
+    }
+    if(user){
+        return navigate('/')
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
         // Here you can integrate your login API
         console.log({ email, password });
+        signInWithEmailPassword(email, password)
+        .then(result => {
+            console.log(result.user);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     };
 
     return (
