@@ -1,15 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { CalendarDays, MapPin, User, Tag } from "lucide-react";
 import { useLoaderData, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import useDynamicTitle from "../hooks/useDynamicTitle";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const EventDetails = () => {
     const event = useLoaderData()
+    const [joinedEvents, setJoinedEvents] = useState([])
     useDynamicTitle('Details || EventSphere')
     const navigate = useNavigate()
-    const {user} = useAuth()
-    
+    const { user } = useAuth()
+
 
     const formattedDate = new Date(event.date).toLocaleString("en-US", {
         weekday: "long",
@@ -20,11 +23,53 @@ const EventDetails = () => {
         minute: "2-digit",
     });
 
+    useEffect(() => {
+        axios.get(`http://localhost:3000/joined-events?email=${user.email}`)
+            .then(data => {
+                setJoinedEvents(data.data)
+            })
+    }, [user.email])
 
     const handleJoinBtn = () => {
-        if(!user){
+        if (!user) {
             return navigate('/login')
         }
+
+        const joinEvent = {
+            eventId: event._id,
+            title: event.title,
+            joinerEmail: user.email,
+            creatorEmail: event.creatorEmail,
+            thumbnail: event.thumbnail,
+            date: event.date,
+            location: event.location,
+            eventType: event.eventType,
+            description: event.description
+        }
+
+        const isJoined = joinedEvents.find(e => e.eventId === event._id)
+        if (isJoined) {
+            Swal.fire({
+                title: "Already Joined this Event",
+                icon: "error",
+                draggable: false
+            });
+            return
+        }
+
+        axios.post("http://localhost:3000/joined-events", joinEvent)
+            .then(data => {
+                console.log('After inserted', data.data);
+                if (data.data.insertedId) {
+                    setJoinedEvents([...joinedEvents, joinEvent])
+                    Swal.fire({
+                        title: "Joined Event Successfully",
+                        icon: "success",
+                        draggable: false
+                    });
+                }
+
+            })
 
     }
 
@@ -58,7 +103,7 @@ const EventDetails = () => {
                                 <Tag className="w-5 h-5 text-indigo-500" />
                                 <span>{event.eventType}</span>
                             </div>
-                            
+
                         </div>
 
                         <p className="text-gray-800 dark:text-gray-300 leading-relaxed">

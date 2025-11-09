@@ -10,6 +10,7 @@ import About from "../pages/About";
 import Contact from "../pages/Contact";
 import PrivateRoute from "./PrivateRoute";
 import EventDetails from "../pages/EventDetails";
+import JoinedEvents from "../pages/JoinedEvents";
 
 
 
@@ -51,6 +52,10 @@ const router = createBrowserRouter([
           path: '/events/:id',
           loader: ({params}) => fetch(`http://localhost:3000/events/${params.id}`) ,
           Component: EventDetails
+        },
+        {
+          path: '/joined-events',
+          element: <PrivateRoute><JoinedEvents></JoinedEvents></PrivateRoute>
         }
     ]
   },
