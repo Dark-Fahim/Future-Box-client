@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 
 const Register = () => {
-    const {createUser, update, loading, user} = useAuth()
+    const {createUser, update, loading, user, googleSignIn} = useAuth()
     const navigate = useNavigate()
     const [fullName, setFullName] = useState("");
     const [image, setImage] = useState("");
@@ -17,6 +17,16 @@ const Register = () => {
     }
     if(user){
         return navigate('/')
+    }
+
+    const handleGoogleSignIn = () => {
+        googleSignIn()
+        .then(result => {
+            console.log(result.user);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     const handleSubmit = (e) => {
@@ -119,7 +129,7 @@ const Register = () => {
                 </div>
 
                 {/* Google Sign-In Button */}
-                <button
+                <button onClick={handleGoogleSignIn}
                     type="button"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#1c1c1e] text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition font-medium"
                 >

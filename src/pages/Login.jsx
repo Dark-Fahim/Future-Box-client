@@ -7,13 +7,22 @@ const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate()
-    const {signInWithEmailPassword, loading, user} = useAuth()
+    const {signInWithEmailPassword, loading, user, googleSignIn} = useAuth()
 
     if(loading) {
         return <p>Loading Please Wait.......!</p>
     }
     if(user){
         return navigate('/')
+    }
+    const handleGoogleSignIn = () => {
+        googleSignIn()
+        .then(result => {
+            console.log(result.user);
+        })
+        .catch(err => {
+            console.log(err);
+        })
     }
 
     const handleSubmit = (e) => {
@@ -91,7 +100,7 @@ const Login = () => {
                     <span className="mx-3 text-gray-500 dark:text-gray-400 text-sm">OR</span>
                     <hr className="flex-1 border-gray-300 dark:border-gray-700" />
                 </div>
-                <button
+                <button onClick={handleGoogleSignIn}
                     type="button"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#1c1c1e] text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition font-medium"
                 >
