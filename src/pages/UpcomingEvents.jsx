@@ -12,7 +12,7 @@ const UpcomingEvents = () => {
     const [events, setEvents]=  useState([])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/events')
+        axios.get('http://localhost:5000/events')
         .then(data => {
             console.log(data.data);
             setEvents(data.data)

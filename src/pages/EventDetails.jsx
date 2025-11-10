@@ -24,7 +24,7 @@ const EventDetails = () => {
     });
 
     useEffect(() => {
-        axios.get(`http://localhost:3000/joined-events?email=${user.email}`)
+        axios.get(`http://localhost:5000/joined-events?email=${user.email}`)
             .then(data => {
                 setJoinedEvents(data.data)
             })
@@ -57,7 +57,7 @@ const EventDetails = () => {
             return
         }
 
-        axios.post("http://localhost:3000/joined-events", joinEvent)
+        axios.post("http://localhost:5000/joined-events", joinEvent)
             .then(data => {
                 console.log('After inserted', data.data);
                 if (data.data.insertedId) {

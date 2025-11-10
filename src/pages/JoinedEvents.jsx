@@ -15,7 +15,7 @@ const JoinedEvents = () => {
 
     let mounted = true;
     axios
-      .get(`http://localhost:3000/joined-events?email=${encodeURIComponent(user.email)}`)
+      .get(`http://localhost:5000/joined-events?email=${encodeURIComponent(user.email)}`)
       .then((res) => {
         if (mounted) setJoinedEvents(res.data || []);
       })
