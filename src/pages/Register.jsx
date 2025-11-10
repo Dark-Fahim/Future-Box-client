@@ -3,55 +3,63 @@ import { User, Mail, Lock, Image } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import useDynamicTitle from "../hooks/useDynamicTitle";
+import toast, { Toaster } from "react-hot-toast";
 
 const Register = () => {
     useDynamicTitle('Register || EventSphere')
-    const {createUser, update, loading, user, googleSignIn} = useAuth()
+    const { createUser, update, loading, user, googleSignIn } = useAuth()
     const navigate = useNavigate()
     const [fullName, setFullName] = useState("");
     const [image, setImage] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
 
-    if(loading) {
+
+    if (loading) {
         return <p>Loading Please Wait.......!</p>
     }
-    if(user){
+    if (user) {
         return navigate('/')
     }
 
     const handleGoogleSignIn = () => {
         googleSignIn()
-        .then(result => {
-            console.log(result.user);
-        })
-        .catch(err => {
-            console.log(err);
-        })
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        createUser(email, password)
-        .then((result) => {
-            console.log(result.user);
-            update(image, fullName)
-            .then(() => {
-                console.log('Profile Updated');
+            .then(result => {
+                console.log(result.user);
             })
             .catch(err => {
                 console.log(err);
             })
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const validate = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
+        if (!validate.test(password)) {
+            toast.error("Password must be at least 6 characters, include 1 uppercase and 1 lowercase letter.")
+            return
+        }
+        createUser(email, password)
+            .then((result) => {
+                console.log(result.user);
+                
+                update(image, fullName)
+                    .then(() => {
+                        console.log('Profile Updated');
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
+            })
+            .catch(err => {
+                console.log(err);
+            })
 
     };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#121212] transition-colors duration-500 px-4">
+            <Toaster />
             <div className="max-w-md w-full bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-lg p-8">
                 <h2 className="text-3xl font-bold text-gray-900 dark:text-white text-center mb-6">
                     Create Your Account
@@ -61,7 +69,7 @@ const Register = () => {
                 </p>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                    
+
                     <div className="relative">
                         <User className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                         <input
@@ -73,7 +81,7 @@ const Register = () => {
                             required
                         />
                     </div>
-                    
+
                     <div className="relative">
                         <Image className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                         <input
@@ -86,7 +94,7 @@ const Register = () => {
                         />
                     </div>
 
-                    
+
                     <div className="relative">
                         <Mail className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                         <input
@@ -99,7 +107,7 @@ const Register = () => {
                         />
                     </div>
 
-                    
+
                     <div className="relative">
                         <Lock className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                         <input
@@ -112,9 +120,9 @@ const Register = () => {
                         />
                     </div>
 
-                    
 
-                    
+
+
                     <button
                         type="submit"
                         className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition"
@@ -123,19 +131,19 @@ const Register = () => {
                     </button>
                 </form>
 
-                
+
                 <div className="flex items-center my-6">
                     <hr className="flex-1 border-gray-300 dark:border-gray-700" />
                     <span className="mx-3 text-gray-500 dark:text-gray-400 text-sm">OR</span>
                     <hr className="flex-1 border-gray-300 dark:border-gray-700" />
                 </div>
 
-                
+
                 <button onClick={handleGoogleSignIn}
                     type="button"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#1c1c1e] text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition font-medium"
                 >
-                    
+
                     <svg
                         className="w-5 h-5"
                         xmlns="http://www.w3.org/2000/svg"
@@ -162,7 +170,7 @@ const Register = () => {
                 </button>
 
 
-                
+
                 <p className="text-center text-gray-600 dark:text-gray-400 mt-6">
                     Already have an account?{" "}
                     <Link
