@@ -46,6 +46,11 @@ const Login = () => {
         googleSignIn()
             .then(result => {
                 console.log(result.user);
+                Swal.fire({
+                    title: "Login Success",
+                    icon: "success",
+                    draggable: false
+                });
             })
             .catch(err => {
                 console.log(err);

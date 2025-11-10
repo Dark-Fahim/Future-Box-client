@@ -12,6 +12,7 @@ import ThemeToggle from "./ThemeToggle";
 import { NavLink } from "react-router";
 import useAuth from "../hooks/useAuth";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
 
 const container = (delay) => ({
   hidden: {
@@ -67,6 +68,11 @@ const Navbar = () => {
     logOut()
       .then(() => {
         console.log('Sign out successful');
+        Swal.fire({
+          title: "Logout Success",
+          icon: "success",
+          draggable: false
+        });
       })
       .catch(() => {
 
@@ -130,10 +136,10 @@ const Navbar = () => {
 
 
         <motion.div
-        variants={fadeRight(.3)}
+          variants={fadeRight(.3)}
           initial="hidden"
           whileInView={'show'}
-         className="flex flex-wrap justify-center items-center gap-4 relative">
+          className="flex flex-wrap justify-center items-center gap-4 relative">
           <ThemeToggle />
 
           {!user ? (
