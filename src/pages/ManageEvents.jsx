@@ -39,7 +39,7 @@ function EditEventModal({ event, onClose, onSave }) {
       ...formData,
       date: formData.date ? new Date(formData.date).toISOString() : formData.date,
     };
-    const {_id, title, date, location, thumbnail, description, eventType } = normalized
+    const { _id, title, date, location, thumbnail, description, eventType } = normalized
     if (!title || !date || !location || !thumbnail || !description || !eventType) {
       Swal.fire({
         icon: "error",
@@ -49,8 +49,8 @@ function EditEventModal({ event, onClose, onSave }) {
       });
       return
     }
-  onSave(normalized)
-    
+    onSave(normalized)
+
 
   };
 
@@ -165,7 +165,7 @@ function ManageEvents() {
   const [view, setView] = useState("grid");
   const { user } = useAuth();
 
-  
+
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -174,7 +174,7 @@ function ManageEvents() {
     setIsModalOpen(true);
   };
 
-  
+
   useEffect(() => {
     const email = user?.email
     axios
@@ -184,37 +184,36 @@ function ManageEvents() {
       })
       .catch((err) => {
         console.error("Failed to load events:", err);
-        
+
       });
   }, [user]);
 
-  
+
   const handleUpdate = async (updatedEvent) => {
-    const {_id, title, date, location, thumbnail, description, eventType } = updatedEvent
-    
+    const { _id, title, date, location, thumbnail, description, eventType } = updatedEvent
+
     setEvents((prev) => prev.map((e) => (e._id === updatedEvent._id ? { ...e, ...updatedEvent } : e)));
     setIsModalOpen(false);
     setSelectedEvent(null);
     const updated = {
-      title, 
-      date, 
-      location, 
+      title,
+      date,
+      location,
       thumbnail,
-      description, 
+      description,
       eventType
     }
-    
+
     try {
-    
       await axios.patch(`http://localhost:5000/manage-events/${_id}`, updated, {
-         
+
       }).then(data => {
         console.log('after update', data.data);
       })
-      
+
     } catch (err) {
       console.error("Failed to save update to server:", err);
-      
+
     }
   };
 
@@ -229,10 +228,45 @@ function ManageEvents() {
     );
   });
 
+ const handleDelete = id => {
+        console.log(id);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`http://localhost:5000/events/${id}`, {
+                    method: 'DELETE',
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log('after delete', data);
+                        if (data.deletedCount) {
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your bid has been deleted.",
+                                icon: "success"
+                            });
+                            const remaining = events.filter(ev => ev._id !== id)
+                            setEvents(remaining)
+                        }
+                    })
+
+            }
+        });
+
+
+    }
+
   return (
     <div className="min-h-screen  bg-gray-50 dark:bg-[#0b1020] transition-colors duration-500 px-4 sm:px-6 lg:px-8 py-10 pt-20">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
+
         <header className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-gray-100">
@@ -313,7 +347,7 @@ function ManageEvents() {
           </div>
         </header>
 
-        {/* Summary cards */}
+
         <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <div className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
             <div className="text-sm text-gray-500 dark:text-gray-300">Total Events</div>
@@ -331,17 +365,17 @@ function ManageEvents() {
           </div>
         </section>
 
-        
+
         <main>
           {view === "grid" ? (
-            
+
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
               {filtered.map((ev) => (
                 <article
                   key={ev._id}
                   className="flex flex-col h-full bg-white dark:bg-[#0f1724] border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition"
                 >
-                  
+
                   <div className="w-full aspect-[16/9] md:aspect-[4/3] lg:aspect-[16/9] overflow-hidden flex-shrink-0">
                     <img src={ev.thumbnail} alt={ev.title} className="w-full h-full object-cover" />
                   </div>
@@ -373,14 +407,12 @@ function ManageEvents() {
                         >
                           <Edit className="w-4 h-4 text-indigo-600" />
                         </button>
-                        <button className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-[#071826]" aria-label={`Delete ${ev.title}`}>
-                          <Trash2 className="w-4 h-4 text-red-600" />
-                        </button>
+
                       </div>
                     </div>
 
                     <div className="mt-4 pt-2">
-                      <button onClick={() => handleEdit(ev)} className="w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-colors duration-300">
+                      <button  onClick={() => setView("list")} className="w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-colors duration-300">
                         Manage
                       </button>
                     </div>
@@ -389,7 +421,7 @@ function ManageEvents() {
               ))}
             </div>
           ) : (
-            
+
             <div className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl overflow-auto">
               <div className="min-w-full">
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -428,7 +460,7 @@ function ManageEvents() {
                             >
                               <Edit className="w-4 h-4" /> Edit
                             </button>
-                            <button className="px-3 py-1 bg-red-600 text-white rounded-md text-sm">Delete</button>
+                            <button onClick={() => handleDelete(ev._id)} className="px-3 py-1 bg-red-600 text-white rounded-md text-sm">Delete</button>
                           </div>
                         </td>
                       </tr>
@@ -441,7 +473,7 @@ function ManageEvents() {
         </main>
       </div>
 
-      
+
       {isModalOpen && selectedEvent && (
         <EditEventModal
           event={selectedEvent}
@@ -449,7 +481,7 @@ function ManageEvents() {
             setIsModalOpen(false);
             setSelectedEvent(null);
           }}
-           onSave={handleUpdate} 
+          onSave={handleUpdate}
 
         />
       )}
