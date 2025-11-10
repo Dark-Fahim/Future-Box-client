@@ -13,12 +13,16 @@ import {
 } from "lucide-react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+
 
 
 function EditEventModal({ event, onClose, onSave }) {
   const makeInitial = (ev) => ({
     ...ev,
-    date: ev && ev.date ? new Date(ev.date).toISOString().slice(0, 16) : "",
+    
+    date: ev && ev.date ? new Date(ev.date).toISOString() : "",
   });
 
   const [formData, setFormData] = useState(makeInitial(event));
@@ -32,26 +36,29 @@ function EditEventModal({ event, onClose, onSave }) {
     setFormData((p) => ({ ...p, [name]: value }));
   };
 
+  
+  const handleDateChange = (date) => {
+    setFormData((p) => ({ ...p, date: date ? date.toISOString() : "" }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const normalized = {
       ...formData,
+      
       date: formData.date ? new Date(formData.date).toISOString() : formData.date,
     };
-    const { _id, title, date, location, thumbnail, description, eventType } = normalized
+    const { _id, title, date, location, thumbnail, description, eventType } = normalized;
     if (!title || !date || !location || !thumbnail || !description || !eventType) {
       Swal.fire({
         icon: "error",
         title: "Oops...",
-        text: "Please Fill the All Blanks",
-
+        text: "Please fill all the fields",
       });
-      return
+      return;
     }
-    onSave(normalized)
-
-
+    onSave(normalized);
   };
 
   if (!event) return null;
@@ -80,14 +87,20 @@ function EditEventModal({ event, onClose, onSave }) {
               />
             </div>
 
-            <div>
+            <div className="relative flex flex-col w-full">
               <label className="text-sm text-gray-600 dark:text-gray-300 block mb-1">Date</label>
-              <input
-                type="datetime-local"
-                name="date"
-                value={formData.date || ""}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-transparent text-gray-900 dark:text-gray-100"
+
+              <DatePicker
+                selected={formData.date ? new Date(formData.date) : null}
+                onChange={handleDateChange}
+                minDate={new Date()}
+                showTimeSelect
+                timeIntervals={15}
+                dateFormat="Pp"
+                placeholderText="Select Event Date & Time"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
+                            bg-white dark:bg-[#0f1724] text-gray-900 dark:text-gray-100
+                            focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
               />
             </div>
 
@@ -113,11 +126,16 @@ function EditEventModal({ event, onClose, onSave }) {
 
             <div>
               <label className="text-sm text-gray-600 dark:text-gray-300 block mb-1">Description</label>
-              <input
-                name="description"
+
+              <textarea
+                placeholder="Event Description"
                 value={formData.description || ""}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-700 rounded-lg bg-transparent text-gray-900 dark:text-gray-100"
+                rows={4}
+                name="description"
+                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-700 rounded-lg 
+            bg-white dark:bg-[#0f1724] text-gray-900 dark:text-gray-100
+            focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors duration-300"
               />
             </div>
 
@@ -158,6 +176,8 @@ function EditEventModal({ event, onClose, onSave }) {
 
 
 
+
+
 function ManageEvents() {
   const [events, setEvents] = useState([]);
   const [query, setQuery] = useState("");
@@ -189,7 +209,7 @@ function ManageEvents() {
   }, [user]);
 
 
-  const handleUpdate = async (updatedEvent) => {
+  const handleUpdate = (updatedEvent) => {
     const { _id, title, date, location, thumbnail, description, eventType } = updatedEvent
 
     setEvents((prev) => prev.map((e) => (e._id === updatedEvent._id ? { ...e, ...updatedEvent } : e)));
@@ -205,11 +225,34 @@ function ManageEvents() {
     }
 
     try {
-      await axios.patch(`http://localhost:5000/manage-events/${_id}`, updated, {
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, Update it!"
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await axios.patch(`http://localhost:5000/manage-events/${_id}`, updated, {
+          })
+            .then(data => {
+              console.log('after delete', data);
+              if (data.data.modifiedCount) {
+                Swal.fire({
+                  title: "Updated!",
+                  text: "Your Event Has Been Updated.",
+                  icon: "success"
+                });
+                const remaining = events.filter(ev => ev._id !== id)
+                setEvents(remaining)
+              }
+            })
 
-      }).then(data => {
-        console.log('after update', data.data);
-      })
+        }
+      });
+
 
     } catch (err) {
       console.error("Failed to save update to server:", err);
@@ -228,40 +271,40 @@ function ManageEvents() {
     );
   });
 
- const handleDelete = id => {
-        console.log(id);
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`http://localhost:5000/events/${id}`, {
-                    method: 'DELETE',
-                })
-                    .then(res => res.json())
-                    .then(data => {
-                        console.log('after delete', data);
-                        if (data.deletedCount) {
-                            Swal.fire({
-                                title: "Deleted!",
-                                text: "Your bid has been deleted.",
-                                icon: "success"
-                            });
-                            const remaining = events.filter(ev => ev._id !== id)
-                            setEvents(remaining)
-                        }
-                    })
-
+  const handleDelete = id => {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/events/${id}`, {
+          method: 'DELETE',
+        })
+          .then(res => res.json())
+          .then(data => {
+            console.log('after delete', data);
+            if (data.deletedCount) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "Your Event Has Been deleted.",
+                icon: "success"
+              });
+              const remaining = events.filter(ev => ev._id !== id)
+              setEvents(remaining)
             }
-        });
+          })
+
+      }
+    });
 
 
-    }
+  }
 
   return (
     <div className="min-h-screen  bg-gray-50 dark:bg-[#0b1020] transition-colors duration-500 px-4 sm:px-6 lg:px-8 py-10 pt-20">
@@ -412,7 +455,7 @@ function ManageEvents() {
                     </div>
 
                     <div className="mt-4 pt-2">
-                      <button  onClick={() => setView("list")} className="w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-colors duration-300">
+                      <button onClick={() => setView("list")} className="w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-colors duration-300">
                         Manage
                       </button>
                     </div>

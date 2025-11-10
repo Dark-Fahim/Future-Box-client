@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import useDynamicTitle from "../hooks/useDynamicTitle";
 import toast, { Toaster } from "react-hot-toast";
+import Swal from "sweetalert2";
 
 const Register = () => {
     useDynamicTitle('Register || EventSphere')
@@ -26,6 +27,11 @@ const Register = () => {
         googleSignIn()
             .then(result => {
                 console.log(result.user);
+                Swal.fire({
+                    title: "Login Success",
+                    icon: "success",
+                    draggable: false
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -42,7 +48,11 @@ const Register = () => {
         createUser(email, password)
             .then((result) => {
                 console.log(result.user);
-                
+                Swal.fire({
+                    title: "Successfully Created User",
+                    icon: "success",
+                    draggable: false
+                });
                 update(image, fullName)
                     .then(() => {
                         console.log('Profile Updated');

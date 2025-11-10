@@ -3,6 +3,7 @@ import { Mail, Lock } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import useDynamicTitle from "../hooks/useDynamicTitle";
+import Swal from "sweetalert2";
 
 const Login = () => {
     useDynamicTitle('Login || EventSphere')
@@ -10,7 +11,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const navigate = useNavigate()
     const { signInWithEmailPassword, loading, user, googleSignIn } = useAuth()
-    
+
     const location = useLocation()
     console.log(location);
     const from = location.state?.from?.pathname || "/";
@@ -42,6 +43,11 @@ const Login = () => {
         signInWithEmailPassword(email, password)
             .then(result => {
                 console.log(result.user);
+                Swal.fire({
+                    title: "Login Successful",
+                    icon: "success",
+                    draggable: false
+                });
             })
             .catch(err => {
                 console.log(err);
@@ -71,7 +77,7 @@ const Login = () => {
                         />
                     </div>
 
-                    
+
                     <div className="relative">
                         <Lock className="absolute top-3 left-3 w-5 h-5 text-gray-400 dark:text-gray-500" />
                         <input
@@ -84,7 +90,7 @@ const Login = () => {
                         />
                     </div>
 
-                    
+
                     <div className="text-right">
                         <Link
                             to="/forgot-password"
@@ -94,7 +100,7 @@ const Login = () => {
                         </Link>
                     </div>
 
-                    
+
                     <button
                         type="submit"
                         className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition"
@@ -103,7 +109,7 @@ const Login = () => {
                     </button>
                 </form>
 
-                
+
                 <div className="flex items-center my-6">
                     <hr className="flex-1 border-gray-300 dark:border-gray-700" />
                     <span className="mx-3 text-gray-500 dark:text-gray-400 text-sm">OR</span>
@@ -113,7 +119,7 @@ const Login = () => {
                     type="button"
                     className="w-full flex items-center justify-center gap-2 py-3 px-4 border border-gray-300 dark:border-gray-700 rounded-lg bg-white dark:bg-[#1c1c1e] text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-[#2a2a2a] transition font-medium"
                 >
-                    
+
                     <svg
                         className="w-5 h-5"
                         xmlns="http://www.w3.org/2000/svg"
@@ -139,7 +145,7 @@ const Login = () => {
                     Sign in with Google
                 </button>
 
-                
+
                 <p className="text-center text-gray-600 dark:text-gray-400">
                     Don’t have an account?{" "}
                     <Link
