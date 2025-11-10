@@ -5,13 +5,28 @@ import useAuth from "../hooks/useAuth";
 import useDynamicTitle from "../hooks/useDynamicTitle";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
+const container = (delay) => ({
+    hidden: {
+        opacity: 0,
+        y: 100,
+    },
+    show: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.5,
+            delay: delay
+        },
+    }
+})
 
 const EventDetails = () => {
     const event = useLoaderData()
     const [joinedEvents, setJoinedEvents] = useState([])
     useDynamicTitle('Details || EventSphere')
     const navigate = useNavigate()
-    const { user } = useAuth()
+    const { user, loading } = useAuth()
 
 
     const formattedDate = new Date(event.date).toLocaleString("en-US", {
@@ -23,12 +38,21 @@ const EventDetails = () => {
         minute: "2-digit",
     });
 
+
+
     useEffect(() => {
-        axios.get(`http://localhost:5000/joined-events?email=${user.email}`)
+        axios.get(`http://localhost:5000/joined-events?email=${user?.email}`)
             .then(data => {
                 setJoinedEvents(data.data)
             })
-    }, [user.email])
+            .catch((err) => {
+                console.log(err);
+            })
+    }, [user?.email])
+
+    if (loading) {
+        return
+    }
 
     const handleJoinBtn = () => {
         if (!user) {
@@ -78,7 +102,10 @@ const EventDetails = () => {
         <div className="min-h-screen bg-gray-50 dark:bg-[#121212] transition-colors duration-500">
             <div className="max-w-5xl mx-auto mt-16 p-6">
                 <div className="bg-white dark:bg-[#1c1c1e] rounded-xl shadow-lg overflow-hidden transition-colors duration-500">
-                    <img
+                    <motion.img
+                        variants={container(.3)}
+                        initial="hidden"
+                        whileInView={'show'}
                         src={event.thumbnail}
                         alt={event.title}
                         className="w-full h-72 object-cover"
@@ -86,11 +113,19 @@ const EventDetails = () => {
 
 
                     <div className="p-6 md:p-10 space-y-6">
-                        <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
+                        <motion.h1
+                            variants={container(.4)}
+                            initial="hidden"
+                            whileInView={'show'}
+                            className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-gray-100">
                             {event.title}
-                        </h1>
+                        </motion.h1>
 
-                        <div className="flex flex-wrap gap-6 text-gray-700 dark:text-gray-300">
+                        <motion.div
+                            variants={container(.5)}
+                            initial="hidden"
+                            whileInView={'show'}
+                            className="flex flex-wrap gap-6 text-gray-700 dark:text-gray-300">
                             <div className="flex items-center gap-2">
                                 <CalendarDays className="w-5 h-5 text-indigo-500" />
                                 <span>{formattedDate}</span>
@@ -104,18 +139,26 @@ const EventDetails = () => {
                                 <span>{event.eventType}</span>
                             </div>
 
-                        </div>
+                        </motion.div>
 
-                        <p className="text-gray-800 dark:text-gray-300 leading-relaxed">
+                        <motion.p
+                            variants={container(.6)}
+                            initial="hidden"
+                            whileInView={'show'}
+                            className="text-gray-800 dark:text-gray-300 leading-relaxed">
                             {event.description}
-                        </p>
+                        </motion.p>
 
 
-                        <div className="pt-4">
+                        <motion.div
+                            variants={container(.7)}
+                            initial="hidden"
+                            whileInView={'show'}
+                            className="pt-4">
                             <button onClick={handleJoinBtn} className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white font-semibold rounded-lg shadow-md transition duration-300">
                                 Join This Event
                             </button>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </div>

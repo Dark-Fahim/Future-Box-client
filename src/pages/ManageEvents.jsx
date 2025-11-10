@@ -15,13 +15,57 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { motion } from "framer-motion";
+
+const container = (delay) => ({
+  hidden: {
+    opacity: 0,
+    y: 100,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: delay
+    },
+  }
+})
+const fadeLeft = (delay) => ({
+  hidden: {
+    opacity: 0,
+    x: -100,
+  },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      delay: delay
+    },
+  }
+})
+const fadeRight = (delay) => ({
+  hidden: {
+    opacity: 0,
+    x: 100,
+  },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      delay: delay
+    },
+  }
+})
 
 
 
 function EditEventModal({ event, onClose, onSave }) {
   const makeInitial = (ev) => ({
     ...ev,
-    
+
     date: ev && ev.date ? new Date(ev.date).toISOString() : "",
   });
 
@@ -36,7 +80,7 @@ function EditEventModal({ event, onClose, onSave }) {
     setFormData((p) => ({ ...p, [name]: value }));
   };
 
-  
+
   const handleDateChange = (date) => {
     setFormData((p) => ({ ...p, date: date ? date.toISOString() : "" }));
   };
@@ -46,7 +90,7 @@ function EditEventModal({ event, onClose, onSave }) {
 
     const normalized = {
       ...formData,
-      
+
       date: formData.date ? new Date(formData.date).toISOString() : formData.date,
     };
     const { _id, title, date, location, thumbnail, description, eventType } = normalized;
@@ -312,15 +356,27 @@ function ManageEvents() {
 
         <header className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-gray-100">
+            <motion.h1
+              variants={fadeLeft(.3)}
+              initial="hidden"
+              whileInView={'show'}
+              className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-gray-100">
               Manage Events
-            </h1>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            </motion.h1>
+            <motion.p
+              variants={fadeLeft(.4)}
+              initial="hidden"
+              whileInView={'show'}
+              className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Overview of your created and joined events — monitor, edit or export.
-            </p>
+            </motion.p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mt-2 lg:mt-0">
+          <motion.div
+            variants={fadeRight(.5)}
+            initial="hidden"
+            whileInView={'show'}
+            className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mt-2 lg:mt-0">
             <label className="relative w-full sm:w-auto">
               <div className="flex items-center bg-white dark:bg-[#0f1724] border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 shadow-sm w-full">
                 <Search className="w-4 h-4 text-gray-500 dark:text-gray-300" />
@@ -387,25 +443,37 @@ function ManageEvents() {
                 </button>
               </div>
             </div>
-          </div>
+          </motion.div>
         </header>
 
 
         <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <div className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+          <motion.div
+            variants={fadeLeft(.4)}
+            initial="hidden"
+            whileInView={'show'}
+            className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
             <div className="text-sm text-gray-500 dark:text-gray-300">Total Events</div>
             <div className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{events.length}</div>
-          </div>
+          </motion.div>
 
-          <div className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+          <motion.div
+            variants={container(.5)}
+            initial="hidden"
+            whileInView={'show'}
+            className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
             <div className="text-sm text-gray-500 dark:text-gray-300">Active</div>
             <div className="text-2xl font-semibold text-green-600 dark:text-green-300">{events.filter(s => s.status === 'Active').length}</div>
-          </div>
+          </motion.div>
 
-          <div className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+          <motion.div
+            variants={fadeRight(.5)}
+            initial="hidden"
+            whileInView={'show'}
+            className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
             <div className="text-sm text-gray-500 dark:text-gray-300">Upcoming</div>
             <div className="text-2xl font-semibold text-indigo-600 dark:text-indigo-300">{events.filter(s => s.status === 'Upcoming').length}</div>
-          </div>
+          </motion.div>
         </section>
 
 
@@ -419,19 +487,35 @@ function ManageEvents() {
                   className="flex flex-col h-full bg-white dark:bg-[#0f1724] border border-gray-200 dark:border-gray-700 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition"
                 >
 
-                  <div className="w-full aspect-[16/9] md:aspect-[4/3] lg:aspect-[16/9] overflow-hidden flex-shrink-0">
+                  <motion.div
+                    variants={container(.4)}
+                    initial="hidden"
+                    whileInView={'show'}
+                    className="w-full aspect-[16/9] md:aspect-[4/3] lg:aspect-[16/9] overflow-hidden flex-shrink-0">
                     <img src={ev.thumbnail} alt={ev.title} className="w-full h-full object-cover" />
-                  </div>
+                  </motion.div>
 
                   <div className="p-4 flex flex-col flex-1">
                     <div className="flex justify-between items-start gap-3">
-                      <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">{ev.title}</h3>
+                      <motion.h3
+                        variants={container(.5)}
+                        initial="hidden"
+                        whileInView={'show'}
+                        className="text-lg font-semibold text-gray-900 dark:text-gray-100">{ev.title}</motion.h3>
 
                     </div>
 
-                    <div className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mt-1">{ev.eventType} • {ev.location}</div>
+                    <motion.div
+                      variants={container(.6)}
+                      initial="hidden"
+                      whileInView={'show'}
+                      className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mt-1">{ev.eventType} • {ev.location}</motion.div>
 
-                    <div className="flex items-center justify-between mt-3">
+                    <motion.div
+                      variants={container(.7)}
+                      initial="hidden"
+                      whileInView={'show'}
+                      className="flex items-center justify-between mt-3">
                       <div className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-3">
                         <Calendar className="w-4 h-4" />
                         <span className="whitespace-nowrap">{new Date(ev.date).toLocaleDateString()}</span>
@@ -452,9 +536,11 @@ function ManageEvents() {
                         </button>
 
                       </div>
-                    </div>
+                    </motion.div>
 
-                    <div className="mt-4 pt-2">
+                    <div
+
+                      className="mt-4 pt-2">
                       <button onClick={() => setView("list")} className="w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-medium transition-colors duration-300">
                         Manage
                       </button>
@@ -470,18 +556,38 @@ function ManageEvents() {
                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                   <thead className="bg-gray-50 dark:bg-[#071022] sticky top-0 z-10">
                     <tr>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Event</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Date</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Location</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Attendees</th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Status</th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-600 dark:text-gray-300">Actions</th>
+                      <motion.th
+                        variants={fadeLeft(.3)}
+                        initial="hidden"
+                        whileInView={'show'}
+                        className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Event</motion.th>
+                      <motion.th
+                        variants={fadeLeft(.4)}
+                        initial="hidden"
+                        whileInView={'show'}
+                        className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Date</motion.th>
+                      <motion.th variants={fadeRight(.3)}
+                        initial="hidden"
+                        whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Location</motion.th>
+                      <motion.th variants={fadeRight(.4)}
+                        initial="hidden"
+                        whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Attendees</motion.th>
+                      <motion.th variants={fadeRight(.5)}
+                        initial="hidden"
+                        whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Status</motion.th>
+                      <motion.th variants={fadeRight(.6)}
+                        initial="hidden"
+                        whileInView={'show'} className="px-4 py-3 text-right text-sm font-medium text-gray-600 dark:text-gray-300">Actions</motion.th>
                     </tr>
                   </thead>
                   <tbody className="bg-white dark:bg-[#0b1220] divide-y divide-gray-100 dark:divide-gray-800">
                     {filtered.map((ev) => (
                       <tr key={ev._id} className="hover:bg-gray-50 dark:hover:bg-[#071826]">
-                        <td className="px-4 py-3">
+                        <motion.td
+                          variants={fadeLeft(.3)}
+                          initial="hidden"
+                          whileInView={'show'}
+                          className="px-4 py-3">
                           <div className="flex items-center gap-3">
                             <img src={ev.thumbnail} alt={ev.title} className="w-12 h-12 object-cover rounded-md flex-shrink-0" />
                             <div className="min-w-0">
@@ -489,13 +595,33 @@ function ManageEvents() {
                               <div className="text-xs text-gray-500 dark:text-gray-400 truncate">{ev.eventType}</div>
                             </div>
                           </div>
-                        </td>
+                        </motion.td>
 
-                        <td className="px-4 dark:text-white py-3 text-sm">{new Date(ev.date).toLocaleString()}</td>
-                        <td className="px-4 dark:text-white py-3 text-sm max-w-[12rem] truncate">{ev.location}</td>
-                        <td className="px-4 dark:text-white py-3 text-sm">{ev.attendees || 0}</td>
-                        <td className="px-4 dark:text-white py-3 text-sm"></td>
-                        <td className="px-4 py-3 text-right text-sm">
+                        <motion.td
+                          variants={fadeLeft(.4)}
+                          initial="hidden"
+                          whileInView={'show'}
+                          className="px-4 dark:text-white py-3 text-sm">{new Date(ev.date).toLocaleString()}</motion.td>
+                        <motion.td
+                          variants={fadeRight(.3)}
+                          initial="hidden"
+                          whileInView={'show'}
+                          className="px-4 dark:text-white py-3 text-sm max-w-[12rem] truncate">{ev.location}</motion.td>
+                        <motion.td
+                          variants={fadeRight(.4)}
+                          initial="hidden"
+                          whileInView={'show'}
+                          className="px-4 dark:text-white py-3 text-sm">{ev.attendees || 0}</motion.td>
+                        <motion.td
+                          variants={fadeRight(.5)}
+                          initial="hidden"
+                          whileInView={'show'}
+                          className="px-4 dark:text-white py-3 text-sm"></motion.td>
+                        <motion.td
+                          variants={fadeRight(.6)}
+                          initial="hidden"
+                          whileInView={'show'}
+                          className="px-4 py-3 text-right text-sm">
                           <div className="inline-flex items-center gap-2">
                             <button
                               onClick={() => handleEdit(ev)}
@@ -505,7 +631,7 @@ function ManageEvents() {
                             </button>
                             <button onClick={() => handleDelete(ev._id)} className="px-3 py-1 bg-red-600 text-white rounded-md text-sm">Delete</button>
                           </div>
-                        </td>
+                        </motion.td>
                       </tr>
                     ))}
                   </tbody>

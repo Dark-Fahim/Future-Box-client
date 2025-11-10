@@ -5,6 +5,22 @@ import useDynamicTitle from "../hooks/useDynamicTitle";
 import useAuth from "../hooks/useAuth";
 import useAxiosSecure from "../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
+import { motion } from "framer-motion";
+const container = (delay) => ({
+  hidden: {
+    opacity: 0,
+    y: 100,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: delay
+    },
+  }
+})
+
 
 const CreateEvent = () => {
   const axiosSecure = useAxiosSecure()
@@ -80,13 +96,21 @@ const CreateEvent = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#121212] transition-colors duration-500 pt-24 px-4 pb-16">
       <div className="max-w-3xl mx-auto p-8 bg-white dark:bg-[#1c1c1e] rounded-2xl shadow-lg border border-gray-200 dark:border-gray-700 transition-colors duration-500">
-        <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 text-center">
+        <motion.h2
+          variants={container(.3)}
+          initial="hidden"
+          whileInView={'show'}
+          className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-6 text-center">
           Create New Event
-        </h2>
+        </motion.h2>
 
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
-        <form onSubmit={handleSubmit} className="space-y-5">
+        <motion.form
+        variants={container(.4)}
+                    initial="hidden"
+                    whileInView={'show'}
+         onSubmit={handleSubmit} className="space-y-5">
 
           <input
             type="text"
@@ -170,7 +194,7 @@ const CreateEvent = () => {
           >
             Create Event
           </button>
-        </form>
+        </motion.form>
       </div>
     </div>
   );

@@ -9,26 +9,71 @@ import {
   X,
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import { NavLink } from "react-router"; 
+import { NavLink } from "react-router";
 import useAuth from "../hooks/useAuth";
+import { motion } from "framer-motion";
+
+const container = (delay) => ({
+  hidden: {
+    opacity: 0,
+    y: 100,
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      delay: delay
+    },
+  }
+})
+
+const fadeLeft = (delay) => ({
+  hidden: {
+    opacity: 0,
+    x: -100,
+  },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      delay: delay
+    },
+  }
+})
+const fadeRight = (delay) => ({
+  hidden: {
+    opacity: 0,
+    x: 100,
+  },
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      delay: delay
+    },
+  }
+})
 
 const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const {user, logOut} = useAuth()
+  const { user, logOut } = useAuth()
 
   const handleLogout = () => {
     console.log('logout hittted');
     logOut()
-    .then(() => {
-      console.log('Sign out successful');
-    })
-    .catch(() => {
+      .then(() => {
+        console.log('Sign out successful');
+      })
+      .catch(() => {
 
-    })
+      })
   }
-  
-  
+
+
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -40,8 +85,12 @@ const Navbar = () => {
   return (
     <nav className="fixed w-full top-0 left-0 z-50 backdrop-blur-md bg-white/80 dark:bg-[#121212]/70 border-b border-gray-200 dark:border-gray-800 transition-colors duration-500">
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
-        
-        <div className="flex items-center gap-2">
+
+        <motion.div
+          variants={fadeLeft(.3)}
+          initial="hidden"
+          whileInView={'show'}
+          className="flex items-center gap-2">
           <button
             className="md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -55,29 +104,36 @@ const Navbar = () => {
           <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
             EventSphere
           </span>
-        </div>
+        </motion.div>
 
-        
-        <div className="hidden md:flex items-center gap-8">
+
+        <motion.div
+          variants={container(.3)}
+          initial="hidden"
+          whileInView={'show'}
+          className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <NavLink
               key={link.path}
               to={link.path}
               className={({ isActive }) =>
-                `transition font-medium ${
-                  isActive
-                    ? "text-indigo-600 dark:text-indigo-400"
-                    : "text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400"
+                `transition font-medium ${isActive
+                  ? "text-indigo-600 dark:text-indigo-400"
+                  : "text-gray-700 dark:text-gray-300 hover:text-indigo-500 dark:hover:text-indigo-400"
                 }`
               }
             >
               {link.name}
             </NavLink>
           ))}
-        </div>
+        </motion.div>
 
-        
-        <div className="flex flex-wrap justify-center items-center gap-4 relative">
+
+        <motion.div
+        variants={fadeRight(.3)}
+          initial="hidden"
+          whileInView={'show'}
+         className="flex flex-wrap justify-center items-center gap-4 relative">
           <ThemeToggle />
 
           {!user ? (
@@ -89,7 +145,7 @@ const Navbar = () => {
             </NavLink>
           ) : (
             <div className="relative">
-              
+
               <div
                 className="group flex items-center gap-2 cursor-pointer"
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -105,13 +161,12 @@ const Navbar = () => {
                   </div>
                 </div>
                 <ChevronDown
-                  className={`w-4 h-4 text-gray-500 dark:text-gray-300 transition-transform duration-200 ${
-                    isDropdownOpen ? "rotate-180" : ""
-                  }`}
+                  className={`w-4 h-4 text-gray-500 dark:text-gray-300 transition-transform duration-200 ${isDropdownOpen ? "rotate-180" : ""
+                    }`}
                 />
               </div>
 
-              
+
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-3 w-48 bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg py-2 animate-fadeIn">
                   <NavLink
@@ -134,7 +189,7 @@ const Navbar = () => {
                   </NavLink>
                   <hr className="border-gray-200 dark:border-gray-700 my-1" />
                   <button onClick={handleLogout}
-                    
+
                     className="flex items-center gap-2 px-4 py-2 text-red-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
                   >
                     <LogOut className="w-4 h-4" /> Logout
@@ -143,19 +198,17 @@ const Navbar = () => {
               )}
             </div>
           )}
-        </div>
+        </motion.div>
       </div>
 
-      
+
       <div
-        className={`md:hidden bg-white dark:bg-[#1c1c1e] border-t border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 ${
-          isMobileMenuOpen ? "max-h-screen py-4" : "max-h-0"
-        }`}
+        className={`md:hidden bg-white dark:bg-[#1c1c1e] border-t border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? "max-h-screen py-4" : "max-h-0"
+          }`}
       >
         <div
-          className={`flex flex-col items-center space-y-3 transform transition-transform duration-300 ${
-            isMobileMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
-          }`}
+          className={`flex flex-col items-center space-y-3 transform transition-transform duration-300 ${isMobileMenuOpen ? "translate-x-0 opacity-100" : "-translate-x-full opacity-0"
+            }`}
         >
           {navLinks.map((link) => (
             <NavLink
