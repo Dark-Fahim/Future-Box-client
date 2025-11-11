@@ -8,13 +8,15 @@ const instance = axios.create({
 })
 
 const useAxiosSecure = () => {
-    const {user, logOut} = useAuth()
+    const {user, logOut, loading} = useAuth()
     const navigate = useNavigate()
+    
+    
     
     useEffect(() => {
         const requestInterceptors =  instance.interceptors.request.use((config) => {
             console.log(config);
-            // config.headers.authorization = `Bearer ${user.accessToken}`
+            config.headers.authorization = `Bearer ${user?.accessToken}`
             return config
         })
 
@@ -27,7 +29,10 @@ const useAxiosSecure = () => {
             instance.interceptors.request.eject(requestInterceptors)
             instance.interceptors.response.eject(responseInterceptors)
         }
-    }, [user.accessToken, logOut, navigate])
+    }, [user?.accessToken, logOut, navigate, loading])
+    if(loading){
+        return
+    }
 
     return instance
 };

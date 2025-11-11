@@ -6,6 +6,7 @@ import useDynamicTitle from "../hooks/useDynamicTitle";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 const container = (delay) => ({
     hidden: {
         opacity: 0,
@@ -27,6 +28,7 @@ const EventDetails = () => {
     useDynamicTitle('Details || EventSphere')
     const navigate = useNavigate()
     const { user, loading } = useAuth()
+    const secureAxios = useAxiosSecure()
 
 
     const formattedDate = new Date(event.date).toLocaleString("en-US", {
@@ -41,14 +43,14 @@ const EventDetails = () => {
 
 
     useEffect(() => {
-        axios.get(`http://localhost:5000/joined-events?email=${user?.email}`)
+        secureAxios?.get(`http://localhost:5000/joined-events?email=${user?.email}`)
             .then(data => {
                 setJoinedEvents(data.data)
             })
             .catch((err) => {
                 console.log(err);
             })
-    }, [user?.email])
+    }, [secureAxios, user?.email])
 
     if (loading) {
         return
@@ -81,7 +83,7 @@ const EventDetails = () => {
             return
         }
 
-        axios.post("http://localhost:5000/joined-events", joinEvent)
+        secureAxios?.post("http://localhost:5000/joined-events", joinEvent)
             .then(data => {
                 console.log('After inserted', data.data);
                 if (data.data.insertedId) {

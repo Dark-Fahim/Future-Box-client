@@ -61,7 +61,7 @@ const CreateEvent = () => {
     };
     console.log(eventData);
     console.log(axiosSecure);
-    axiosSecure.post('/events', eventData)
+    axiosSecure?.post('/events', eventData)
       .then(data => {
         console.log("after post data", data);
         if (data.data.insertedId) {
@@ -70,6 +70,13 @@ const CreateEvent = () => {
             icon: "success",
             draggable: false
           });
+          setTitle("");
+          setDescription("");
+          setEventType("");
+          setThumbnail("");
+          setLocation("");
+          setDate(null);
+          setError("");
         }
       }).catch((err) => {
         console.log(err);
@@ -84,13 +91,7 @@ const CreateEvent = () => {
 
     console.log("Event Created:", eventData);
 
-    setTitle("");
-    setDescription("");
-    setEventType("");
-    setThumbnail("");
-    setLocation("");
-    setDate(null);
-    setError("");
+
   };
 
   return (
@@ -107,10 +108,10 @@ const CreateEvent = () => {
         {error && <p className="text-red-500 mb-4 text-center">{error}</p>}
 
         <motion.form
-        variants={container(.4)}
-                    initial="hidden"
-                    whileInView={'show'}
-         onSubmit={handleSubmit} className="space-y-5">
+          variants={container(.4)}
+          initial="hidden"
+          whileInView={'show'}
+          onSubmit={handleSubmit} className="space-y-5">
 
           <input
             type="text"

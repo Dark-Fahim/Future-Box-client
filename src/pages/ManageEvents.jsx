@@ -16,6 +16,7 @@ import Swal from "sweetalert2";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { motion } from "framer-motion";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const container = (delay) => ({
   hidden: {
@@ -228,6 +229,7 @@ function ManageEvents() {
   const [filter, setFilter] = useState("All");
   const [view, setView] = useState("grid");
   const { user } = useAuth();
+  const secureAxios = useAxiosSecure()
 
 
   const [selectedEvent, setSelectedEvent] = useState(null);
@@ -241,8 +243,7 @@ function ManageEvents() {
 
   useEffect(() => {
     const email = user?.email
-    axios
-      .get(`http://localhost:5000/manage-events?email=${encodeURIComponent(email)}`)
+    secureAxios?.get(`http://localhost:5000/manage-events?email=${encodeURIComponent(email)}`)
       .then((res) => {
         setEvents(res.data || []);
       })
@@ -250,7 +251,7 @@ function ManageEvents() {
         console.error("Failed to load events:", err);
 
       });
-  }, [user]);
+  }, [user, secureAxios]);
 
 
   const handleUpdate = (updatedEvent) => {
@@ -279,7 +280,7 @@ function ManageEvents() {
         confirmButtonText: "Yes, Update it!"
       }).then(async (result) => {
         if (result.isConfirmed) {
-          await axios.patch(`http://localhost:5000/manage-events/${_id}`, updated, {
+          await secureAxios?.patch(`http://localhost:5000/manage-events/${_id}`, updated, {
           })
             .then(data => {
               console.log('after delete', data);
@@ -327,13 +328,12 @@ function ManageEvents() {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/events/${id}`, {
-          method: 'DELETE',
-        })
+        secureAxios?.delete(`http://localhost:5000/events/${id}`)
           .then(res => res.json())
           .then(data => {
             console.log('after delete', data);
             if (data.deletedCount) {
+
               Swal.fire({
                 title: "Deleted!",
                 text: "Your Event Has Been deleted.",

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
@@ -65,10 +66,17 @@ const UpcomingEvents = () => {
     const [filter, setFilter] = useState("All");
 
     useEffect(() => {
+        const type = filter === "All" ? "" : filter;
+        
         let mounted = true;
         setLoading(true);
         axios
-            .get("http://localhost:5000/events")
+        .get("http://localhost:5000/events", {
+            params: {
+                eventType: type,
+                title: query.trim()
+            }
+        })
             .then((res) => {
                 if (!mounted) return;
                 const data = Array.isArray(res.data) ? res.data : [];
@@ -83,7 +91,9 @@ const UpcomingEvents = () => {
         return () => {
             mounted = false;
         };
-    }, []);
+    }, [filter, query]);
+
+
 
 
     useEffect(() => {
@@ -99,16 +109,7 @@ const UpcomingEvents = () => {
     }, [events]);
 
 
-    const displayed = upcomingEvents.filter((ev) => {
-        const q = query.trim().toLowerCase();
-        if (filter !== "All" && ev.eventType !== filter) return false;
-        if (!q) return true;
-        return (
-            (ev.title || "").toLowerCase().includes(q) ||
-            (ev.location || "").toLowerCase().includes(q) ||
-            (ev.eventType || "").toLowerCase().includes(q)
-        );
-    });
+    const displayed = upcomingEvents
 
     return (
         <section className="py-24 bg-gray-50 dark:bg-[#121212] transition-colors duration-500 min-h-screen">
@@ -200,7 +201,7 @@ const UpcomingEvents = () => {
                     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {displayed.map((event) => {
                             const dateObj = event?.date ? new Date(event.date) : null;
-                            const niceDate = dateObj && !isNaN(dateObj.getTime())
+                            const mainDate = dateObj && !isNaN(dateObj.getTime())
                                 ? dateObj.toLocaleString(undefined, {
                                     weekday: "short",
                                     year: "numeric",
@@ -231,7 +232,7 @@ const UpcomingEvents = () => {
                                         <h3 className="text-xl font-semibold text-gray-900 dark:text-white">{event.title}</h3>
 
                                         <div className="mt-4 flex items-center text-sm text-gray-500 dark:text-gray-400 gap-3">
-                                            <CalendarIcon className="w-4 h-4" /> {niceDate}
+                                            <CalendarIcon className="w-4 h-4" /> {mainDate}
                                         </div>
 
                                         <div className="mt-1 flex items-center text-sm text-gray-500 dark:text-gray-400 gap-3">

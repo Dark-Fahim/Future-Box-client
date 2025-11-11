@@ -3,6 +3,7 @@ import { Calendar, MapPin, Tag } from "lucide-react";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
 import { motion } from "framer-motion";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 const container = (delay) => ({
   hidden: {
     opacity: 0,
@@ -21,6 +22,7 @@ const container = (delay) => ({
 const JoinedEvents = () => {
   const [joinedEvents, setJoinedEvents] = useState([]);
   const { user } = useAuth();
+  const secureAxios = useAxiosSecure()
 
   useEffect(() => {
     if (!user?.email) {
@@ -29,8 +31,7 @@ const JoinedEvents = () => {
     }
 
     let mounted = true;
-    axios
-      .get(`http://localhost:5000/joined-events?email=${encodeURIComponent(user.email)}`)
+    secureAxios?.get(`http://localhost:5000/joined-events?email=${encodeURIComponent(user.email)}`)
       .then((res) => {
         if (mounted) setJoinedEvents(res.data || []);
       })
@@ -42,7 +43,7 @@ const JoinedEvents = () => {
     return () => {
       mounted = false;
     };
-  }, [user?.email]);
+  }, [secureAxios, user.email]);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-[#121212] transition-colors duration-500 pt-24 px-6 pb-16">
