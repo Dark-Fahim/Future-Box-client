@@ -50,7 +50,7 @@ const fadeRight = (delay) => ({
 
 const members = [
   {
-    name: "Ador Ahmed",
+    name: "Kamrul Hasan",
     role: "Frontend Developer",
     img: "https://randomuser.me/api/portraits/men/32.jpg",
   },
@@ -65,7 +65,7 @@ const members = [
     img: "https://randomuser.me/api/portraits/men/70.jpg",
   },
   {
-    name: "Nusrat Jahan",
+    name: "Airin Nila",
     role: "Marketing Lead",
     img: "https://randomuser.me/api/portraits/women/68.jpg",
   },
