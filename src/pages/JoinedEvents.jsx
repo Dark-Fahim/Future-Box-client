@@ -31,7 +31,7 @@ const JoinedEvents = () => {
     }
 
     let mounted = true;
-    secureAxios?.get(`http://localhost:5000/joined-events?email=${encodeURIComponent(user.email)}`)
+    secureAxios?.get(`https://future-box-server.vercel.app/joined-events?email=${encodeURIComponent(user.email)}`)
       .then((res) => {
         if (mounted) setJoinedEvents(res.data || []);
       })

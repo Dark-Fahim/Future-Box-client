@@ -4,7 +4,7 @@ import { useNavigate } from "react-router";
 import { useEffect } from "react";
 
 const instance = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://future-box-server.vercel.app',
 })
 
 const useAxiosSecure = () => {
@@ -15,7 +15,7 @@ const useAxiosSecure = () => {
     
     useEffect(() => {
         const requestInterceptors =  instance.interceptors.request.use((config) => {
-            console.log(config);
+            
             config.headers.authorization = `Bearer ${user?.accessToken}`
             return config
         })

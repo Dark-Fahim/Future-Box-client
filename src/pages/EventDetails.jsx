@@ -43,7 +43,7 @@ const EventDetails = () => {
 
 
     useEffect(() => {
-        secureAxios?.get(`http://localhost:5000/joined-events?email=${user?.email}`)
+        secureAxios?.get(`https://future-box-server.vercel.app/joined-events?email=${user?.email}`)
             .then(data => {
                 setJoinedEvents(data.data)
             })
@@ -83,7 +83,7 @@ const EventDetails = () => {
             return
         }
 
-        secureAxios?.post("http://localhost:5000/joined-events", joinEvent)
+        secureAxios?.post("https://future-box-server.vercel.app/joined-events", joinEvent)
             .then(data => {
                 console.log('After inserted', data.data);
                 if (data.data.insertedId) {

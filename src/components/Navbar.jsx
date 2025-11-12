@@ -9,7 +9,7 @@ import {
   X,
 } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import useAuth from "../hooks/useAuth";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
@@ -64,10 +64,10 @@ const Navbar = () => {
   const { user, logOut } = useAuth()
 
   const handleLogout = () => {
-    console.log('logout hittted');
+    
     logOut()
       .then(() => {
-        console.log('Sign out successful');
+        
         Swal.fire({
           title: "Logout Success",
           icon: "success",
@@ -107,9 +107,9 @@ const Navbar = () => {
               <Menu className="w-6 h-6 text-gray-700 dark:text-gray-300" />
             )}
           </button>
-          <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
+          <Link to={'/'} className="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
             EventSphere
-          </span>
+          </Link>
         </motion.div>
 
 

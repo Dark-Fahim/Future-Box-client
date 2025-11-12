@@ -59,11 +59,11 @@ const CreateEvent = () => {
       date: date.toISOString(),
       creatorEmail: user?.email || "anonymous@example.com",
     };
-    console.log(eventData);
-    console.log(axiosSecure);
+    
+    
     axiosSecure?.post('/events', eventData)
       .then(data => {
-        console.log("after post data", data);
+        
         if (data.data.insertedId) {
           Swal.fire({
             title: "Event Created Successfully",
@@ -83,13 +83,13 @@ const CreateEvent = () => {
         Swal.fire({
           icon: "error",
           title: "Oops...",
-          text: "Event Not Created",
+          text: err.message || "Event Not Created",
           footer: '<a href="#">Why do I have this issue?</a>'
         });
         return
       })
 
-    console.log("Event Created:", eventData);
+    
 
 
   };

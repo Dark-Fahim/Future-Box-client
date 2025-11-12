@@ -96,7 +96,7 @@ const Banner = () => {
               Explore Events
             </Link>
             <Link
-              to="/create"
+              to="/create-event"
               className="px-6 py-3 border border-indigo-600 text-indigo-600 hover:bg-indigo-50 dark:hover:bg-indigo-950 dark:text-indigo-400 dark:border-indigo-400 rounded-lg text-lg font-medium transition"
             >
               Create Event

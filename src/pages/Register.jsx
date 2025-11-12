@@ -41,7 +41,7 @@ const Register = () => {
     const handleGoogleSignIn = () => {
         googleSignIn()
             .then(result => {
-                console.log(result.user);
+                
                 Swal.fire({
                     title: "Login Success",
                     icon: "success",
@@ -62,7 +62,7 @@ const Register = () => {
         }
         createUser(email, password)
             .then((result) => {
-                console.log(result.user);
+                
                 Swal.fire({
                     title: "Successfully Created User",
                     icon: "success",
@@ -70,7 +70,7 @@ const Register = () => {
                 });
                 update(image, fullName)
                     .then(() => {
-                        console.log('Profile Updated');
+                        
                     })
                     .catch(err => {
                         console.log(err);

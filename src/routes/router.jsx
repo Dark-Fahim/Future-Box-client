@@ -12,6 +12,7 @@ import PrivateRoute from "./PrivateRoute";
 import EventDetails from "../pages/EventDetails";
 import JoinedEvents from "../pages/JoinedEvents";
 import ManageEvents from "../pages/ManageEvents";
+import UpdateEventForm from "../pages/UpdateEventForm";
 
 
 
@@ -51,7 +52,7 @@ const router = createBrowserRouter([
         },
         {
           path: '/events/:id',
-          loader: ({params}) => fetch(`http://localhost:5000/events/${params.id}`) ,
+          loader: ({params}) => fetch(`https://future-box-server.vercel.app/events/${params.id}`) ,
           Component: EventDetails
         },
         {
@@ -61,6 +62,11 @@ const router = createBrowserRouter([
         {
           path: '/manage-events',
           element: <PrivateRoute><ManageEvents></ManageEvents></PrivateRoute>
+        },
+        {
+          path: '/manage-event/:id',
+          loader: ({params}) => fetch(`https://future-box-server.vercel.app/events/${params.id}`) ,
+          element: <PrivateRoute><UpdateEventForm></UpdateEventForm></PrivateRoute>
         }
     ]
   },

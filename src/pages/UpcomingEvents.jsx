@@ -71,7 +71,7 @@ const UpcomingEvents = () => {
         let mounted = true;
         setLoading(true);
         axios
-        .get("http://localhost:5000/events", {
+        .get("https://future-box-server.vercel.app/events", {
             params: {
                 eventType: type,
                 title: query.trim()

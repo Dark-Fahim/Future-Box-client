@@ -28,7 +28,7 @@ const Login = () => {
     const { signInWithEmailPassword, loading, user, googleSignIn } = useAuth()
 
     const location = useLocation()
-    console.log(location);
+    
     const from = location.state?.from?.pathname || "/";
     useEffect(() => {
         if (user) {
@@ -45,7 +45,7 @@ const Login = () => {
     const handleGoogleSignIn = () => {
         googleSignIn()
             .then(result => {
-                console.log(result.user);
+                
                 Swal.fire({
                     title: "Login Success",
                     icon: "success",
@@ -59,7 +59,7 @@ const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log({ email, password });
+        
         signInWithEmailPassword(email, password)
             .then(result => {
                 console.log(result.user);
