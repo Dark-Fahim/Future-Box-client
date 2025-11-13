@@ -17,14 +17,14 @@ const container = (delay) => ({
   hidden: { opacity: 0, y: 100 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, delay } },
 });
-const fadeLeft = (delay) => ({
-  hidden: { opacity: 0, x: -100 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.5, delay } },
-});
-const fadeRight = (delay) => ({
-  hidden: { opacity: 0, x: 100 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.5, delay } },
-});
+// const container = (delay) => ({
+//   hidden: { opacity: 0, x: -100 },
+//   show: { opacity: 1, x: 0, transition: { duration: 0.5, delay } },
+// });
+// const container = (delay) => ({
+//   hidden: { opacity: 0, x: 100 },
+//   show: { opacity: 1, x: 0, transition: { duration: 0.5, delay } },
+// });
 
 function ManageEvents() {
   const [events, setEvents] = useState([]); 
@@ -120,15 +120,15 @@ function ManageEvents() {
       <div className="max-w-7xl mx-auto">
         <header className="mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
           <div>
-            <motion.h1 variants={fadeLeft(.3)} initial="hidden" whileInView={"show"} className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-gray-100">
+            <motion.h1 variants={container(.3)} initial="hidden" whileInView={"show"} className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-gray-100">
               Manage Events
             </motion.h1>
-            <motion.p variants={fadeLeft(.4)} initial="hidden" whileInView={"show"} className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+            <motion.p variants={container(.4)} initial="hidden" whileInView={"show"} className="text-sm text-gray-600 dark:text-gray-400 mt-1">
               Overview of your created and joined events — monitor, edit or export.
             </motion.p>
           </div>
 
-          <motion.div variants={fadeRight(.5)} initial="hidden" whileInView={"show"} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mt-2 lg:mt-0">
+          <motion.div variants={container(.5)} initial="hidden" whileInView={"show"} className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 mt-2 lg:mt-0">
             <label className="relative w-full sm:w-auto">
               <div className="flex items-center bg-white dark:bg-[#0f1724] border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 shadow-sm w-full">
                 <Search className="w-4 h-4 text-gray-500 dark:text-gray-300" />
@@ -163,20 +163,13 @@ function ManageEvents() {
                 Export
               </button>
 
-              <div className="flex border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
-                <button onClick={() => setView("grid")} className={`px-3 py-2 text-sm ${view === "grid" ? "bg-gray-100 dark:bg-[#0b1a2b]" : "bg-white dark:bg-[#071026]"}`} aria-pressed={view === "grid"} aria-label="Grid view">
-                  Grid
-                </button>
-                <button onClick={() => setView("list")} className={`px-3 py-2 text-sm ${view === "list" ? "bg-gray-100 dark:bg-[#0b1a2b]" : "bg-white dark:bg-[#071026]"}`} aria-pressed={view === "list"} aria-label="List view">
-                  List
-                </button>
-              </div>
+              
             </div>
           </motion.div>
         </header>
 
         <section className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-          <motion.div variants={fadeLeft(.4)} initial="hidden" whileInView={"show"} className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+          <motion.div variants={container(.4)} initial="hidden" whileInView={"show"} className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
             <div className="text-sm text-gray-500 dark:text-gray-300">Total Events</div>
             <div className="text-2xl font-semibold text-gray-900 dark:text-gray-100">{events.length}</div>
           </motion.div>
@@ -186,7 +179,7 @@ function ManageEvents() {
             <div className="text-2xl font-semibold text-green-600 dark:text-green-300">{events.length}</div>
           </motion.div>
 
-          <motion.div variants={fadeRight(.5)} initial="hidden" whileInView={"show"} className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+          <motion.div variants={container(.5)} initial="hidden" whileInView={"show"} className="bg-white dark:bg-[#071026] border border-gray-200 dark:border-gray-700 rounded-xl p-4">
             <div className="text-sm text-gray-500 dark:text-gray-300">Upcoming</div>
             <div className="text-2xl font-semibold text-indigo-600 dark:text-indigo-300">{events.length}</div>
           </motion.div>
@@ -198,12 +191,12 @@ function ManageEvents() {
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-gray-50 dark:bg-[#071022] sticky top-0 z-10">
                   <tr>
-                    <motion.th variants={fadeLeft(.3)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Event</motion.th>
-                    <motion.th variants={fadeLeft(.4)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Date</motion.th>
-                    <motion.th variants={fadeRight(.3)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Location</motion.th>
-                    <motion.th variants={fadeRight(.4)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Attendees</motion.th>
-                    <motion.th variants={fadeRight(.5)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Status</motion.th>
-                    <motion.th variants={fadeRight(.6)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-right text-sm font-medium text-gray-600 dark:text-gray-300">Actions</motion.th>
+                    <motion.th variants={container(.3)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Event</motion.th>
+                    <motion.th variants={container(.4)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Date</motion.th>
+                    <motion.th variants={container(.3)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Location</motion.th>
+                    <motion.th variants={container(.4)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Attendees</motion.th>
+                    <motion.th variants={container(.5)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-left text-sm font-medium text-gray-600 dark:text-gray-300">Status</motion.th>
+                    <motion.th variants={container(.6)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-right text-sm font-medium text-gray-600 dark:text-gray-300">Actions</motion.th>
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-[#0b1220] divide-y divide-gray-100 dark:divide-gray-800">
@@ -217,7 +210,7 @@ function ManageEvents() {
 
                   {events.map((ev) => (
                     <tr key={ev._id} className="hover:bg-gray-50 dark:hover:bg-[#071826]">
-                      <motion.td variants={fadeLeft(.3)} initial="hidden" whileInView={'show'} className="px-4 py-3">
+                      <motion.td variants={container(.3)} initial="hidden" whileInView={'show'} className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <img src={ev.thumbnail} alt={ev.title} className="w-12 h-12 object-cover rounded-md flex-shrink-0" />
                           <div className="min-w-0">
@@ -227,13 +220,13 @@ function ManageEvents() {
                         </div>
                       </motion.td>
 
-                      <motion.td variants={fadeLeft(.4)} initial="hidden" whileInView={'show'} className="px-4 dark:text-white py-3 text-sm">
+                      <motion.td variants={container(.4)} initial="hidden" whileInView={'show'} className="px-4 dark:text-white py-3 text-sm">
                         {ev.date ? new Date(ev.date).toLocaleString() : "-"}
                       </motion.td>
-                      <motion.td variants={fadeRight(.3)} initial="hidden" whileInView={'show'} className="px-4 dark:text-white py-3 text-sm max-w-[12rem] truncate">{ev.location || "-"}</motion.td>
-                      <motion.td variants={fadeRight(.4)} initial="hidden" whileInView={'show'} className="px-4 dark:text-white py-3 text-sm">{ev.attendees || 0}</motion.td>
-                      <motion.td variants={fadeRight(.5)} initial="hidden" whileInView={'show'} className="px-4 dark:text-white py-3 text-sm"></motion.td>
-                      <motion.td variants={fadeRight(.6)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-right text-sm">
+                      <motion.td variants={container(.3)} initial="hidden" whileInView={'show'} className="px-4 dark:text-white py-3 text-sm max-w-[12rem] truncate">{ev.location || "-"}</motion.td>
+                      <motion.td variants={container(.4)} initial="hidden" whileInView={'show'} className="px-4 dark:text-white py-3 text-sm">{ev.attendees || 0}</motion.td>
+                      <motion.td variants={container(.5)} initial="hidden" whileInView={'show'} className="px-4 dark:text-white py-3 text-sm"></motion.td>
+                      <motion.td variants={container(.6)} initial="hidden" whileInView={'show'} className="px-4 py-3 text-right text-sm">
                         <div className="inline-flex items-center gap-2">
                           <Link to={`/manage-event/${ev._id}`} className="px-3 py-1 bg-indigo-600 text-white rounded-md text-sm flex items-center gap-2">
                             <Edit className="w-4 h-4" /> Edit

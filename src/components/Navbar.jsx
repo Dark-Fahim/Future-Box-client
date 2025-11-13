@@ -93,9 +93,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex justify-between items-center py-4 px-6">
 
         <motion.div
-          variants={fadeLeft(.3)}
-          initial="hidden"
-          whileInView={'show'}
+          
           className="flex items-center gap-2">
           <button
             className="md:hidden p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition"
@@ -114,9 +112,7 @@ const Navbar = () => {
 
 
         <motion.div
-          variants={container(.3)}
-          initial="hidden"
-          whileInView={'show'}
+          
           className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <NavLink
@@ -136,9 +132,7 @@ const Navbar = () => {
 
 
         <motion.div
-          variants={fadeRight(.3)}
-          initial="hidden"
-          whileInView={'show'}
+          
           className="flex flex-wrap justify-center items-center gap-4 relative">
           <ThemeToggle />
 

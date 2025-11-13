@@ -1,16 +1,69 @@
-# React + Vite
+# 🌿 Event Management Platform (MERN + Firebase)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive **Full-Stack Event Management Web Application** built using **React**, **Tailwind CSS**, **DaisyUI**, **Express**, **MongoDB**, and **Firebase Authentication**.  
 
-Currently, two official plugins are available:
+Users can explore upcoming events, view event details, create events, and log in using email/password or Google Sign-In.  
+Includes **Dark/Light theme**, smooth transitions, and a professional UI.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🌐 Live Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🔗 **Live Site:** [https://social-development-4825c.web.app]
+⚙️ **Backend API:** [https://future-box-server.vercel.app/]
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+
+---
+
+## 🚀 Features
+
+### 🌍 Frontend
+- Built with **React + Vite** for blazing-fast performance
+- **Responsive**, clean, and professional UI using TailwindCSS + DaisyUI
+- **Dark/Light mode toggle** with localStorage persistence
+- **Smooth transitions** using Framer Motion
+- **404 Page**, **Loading Spinner**, **About**, and **Contact** pages
+- Organized folder structure and reusable components
+
+### 🧾 Event Functionalities
+- Users can **create, view, and explore** events  
+- Event includes:
+  - Title  
+  - Description  
+  - Type (Cleanup / Plantation / Donation / etc.)  
+  - Thumbnail image URL  
+  - Location  
+  - Future event date only (validated via `react-datepicker`)  
+- Upcoming Events list with dynamic details page  
+- Creator’s email automatically added to event data
+
+### 🔐 Authentication (Firebase)
+- **Sign Up**, **Login**, and **Logout** using Firebase Authentication  
+- **Google Sign-In** available  
+- Protected routes for authenticated users (Event creation, etc.)
+
+### ⚙️ Backend (Express + MongoDB)
+- RESTful API built using **Express.js**  
+- CRUD operations for event management  
+- Validates event date (future only)
+- Easy deployment-ready structure (for Render, Railway, etc.)
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Technology |
+|-----------|-------------|
+| Frontend | React.js (Vite) |
+| Styling | Tailwind CSS + DaisyUI |
+| Animations | Framer Motion |
+| Icons | Lucide React |
+| Auth | Firebase Authentication |
+| Routing | React Router DOM |
+| Backend | Express.js |
+| Database | MongoDB + Mongoose |
+| Date Picker | react-datepicker |
+| State | React Hooks |
+
+---
