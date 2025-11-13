@@ -25,6 +25,7 @@ Includes **Dark/Light theme**, smooth transitions, and a professional UI.
 - **Smooth transitions** using Framer Motion
 - **404 Page**, **Loading Spinner**, **About**, and **Contact** pages
 - Organized folder structure and reusable components
+- For Animation Framer Motion
 
 ### 🧾 Event Functionalities
 - Users can **create, view, and explore** events  
